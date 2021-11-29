@@ -20,7 +20,7 @@ public class Topic_02_Locator {
 		driver = new FirefoxDriver();
 		
 		// Set time wait to find element 
-		driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		
 		// Open web
 		driver.get("https://www.youtube.com/");
@@ -30,17 +30,9 @@ public class Topic_02_Locator {
 	public void TC_01() {
 		// Selenium Locator
 		driver.findElement(By.cssSelector("input[id='search']")).sendKeys("Thay long Remix");
+		sleepInSecond(1);
+		driver.findElement(By.cssSelector("button[id='search-icon-legacy']")).click();
 		sleepInSecond(3);
-	}
-
-	@Test
-	public void TC_02() {
-		
-	}
-
-	@Test
-	public void TC_03() {
-		
 	}
 
 	@AfterClass
