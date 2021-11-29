@@ -201,6 +201,33 @@ public class Topic_04_XPath_CSS_HomeWork {
 		
 	}
 
+	public void TC_01_LoginWithEmptyData() {
+		//step1
+		driver.get("https://alada.vn/tai-khoan/dang-ky.html");
+		// click button "dang ky"
+		driver.findElement(By.xpath("//button[@class='btn_pink_sm fs16']")).click();
+
+		// Check message error
+		driver.findElement(By.xpath("//label[@id='txtFirstname-error']")).getText().compareTo("Vui lòng nhập họ tên");
+		driver.findElement(By.xpath("//label[contains(text(),'nhập họ tên')]")).getText().compareTo("Vui lòng nhập họ tên");
+		
+		driver.findElement(By.xpath("//label[@id='txtEmail-error']")).getText().compareTo("Vui lòng nhập email");
+		driver.findElement(By.xpath("//label[contains(@id,'txtEmail')]")).getText().compareTo("Vui lòng nhập email");
+		
+		driver.findElement(By.xpath("//label[@id='txtCEmail-error']")).getText().compareTo("Vui lòng nhập lại địa chỉ email");
+		
+		driver.findElement(By.xpath("//label[@id='txtPassword-error']")).getText().compareTo("Vui lòng nhập mật khẩu");
+		
+		driver.findElement(By.xpath("//label[@id='txtCPassword-error']")).getText().compareTo("Vui lòng nhập lại mật khẩu");
+		
+		driver.findElement(By.xpath("//label[@id='txtPhone-error']")).getText().compareTo("Vui lòng nhập số điện thoại. ");
+		
+		
+		
+	}
+
+	
+	
 	@AfterClass
 	public void afterClass() {
 		driver.quit();
