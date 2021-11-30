@@ -1,6 +1,5 @@
 package webDriver;
 
-import java.nio.charset.Charset;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -130,10 +129,8 @@ public class Topic_04_XPath_CSS_HomeWork {
 		sleepInSecond(1);
 
 		// Check message Error
-		Assert.assertEquals(driver.findElement(By.xpath("//label[@id='txtPassword-error']")).getText(),
-				"Mật khẩu phải có ít nhất 6 ký tự");
-		Assert.assertEquals(driver.findElement(By.xpath("//label[@id='txtCPassword-error']")).getText(),
-				"Mật khẩu phải có ít nhất 6 ký tự");
+		Assert.assertTrue(driver.findElement(By.xpath("//label[@id='txtPassword-error']")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//label[@id='txtCPassword-error']")).isDisplayed());
 	}
 
 	@Test
@@ -185,8 +182,7 @@ public class Topic_04_XPath_CSS_HomeWork {
 		sleepInSecond(1);
 
 		// Check message Error
-		Assert.assertEquals(driver.findElement(By.xpath("//label[@id='txtPhone-error']")).getText(),
-				"Số điện thoại phải từ 10-11 số.");
+		Assert.assertTrue(driver.findElement(By.xpath("//label[@id='txtPhone-error']")).isDisplayed());
 
 		driver.findElement(By.xpath("//input[@id='txtPhone']")).clear();
 		driver.findElement(By.xpath("//input[@id='txtPhone']")).sendKeys("0523452569");
@@ -232,8 +228,7 @@ public class Topic_04_XPath_CSS_HomeWork {
 		sleepInSecond(1);
 
 		// Check message error
-		Assert.assertEquals(driver.findElement(By.xpath("//div[@id='advice-validate-email-email']")).getText(),
-				"Please enter a valid email address. For example johndoe@domain.com.");
+		Assert.assertTrue(driver.findElement(By.xpath("//div[@id='advice-validate-email-email']")).isDisplayed());
 	}
 	
 	@Test
@@ -251,8 +246,7 @@ public class Topic_04_XPath_CSS_HomeWork {
 		sleepInSecond(1);
 
 		// Check message error
-		Assert.assertEquals(driver.findElement(By.xpath("//div[@id='advice-validate-password-pass']")).getText(),
-				"Please enter 6 or more characters without leading or trailing spaces.");
+		Assert.assertTrue(driver.findElement(By.xpath("//div[@id='advice-validate-password-pass']")).isDisplayed());
 	}
 	
 	@Test
@@ -270,8 +264,7 @@ public class Topic_04_XPath_CSS_HomeWork {
 		sleepInSecond(1);
 
 		// Check message error
-		Assert.assertEquals(driver.findElement(By.xpath("//span[contains(text(),'Invalid login or password.')]")).getText(),
-				"Invalid login or password.");
+		Assert.assertTrue(driver.findElement(By.xpath("//span[contains(text(),'Invalid login or password.')]")).isDisplayed());
 	}
 	
 	public String RandomString() {
@@ -302,7 +295,7 @@ public class Topic_04_XPath_CSS_HomeWork {
 		//random email
 	    String generatedString = RandomString() + "@gmail.com";
 		//
-		driver.findElement(By.xpath("//input[@id='firstname']")).sendKeys("Kane");
+		driver.findElement(By.xpath("//input[@id='firstname']")).sendKeys("Kanee");
 		driver.findElement(By.xpath("//input[@id='lastname']")).sendKeys("Pham");
 		driver.findElement(By.xpath("//input[@id='email_address']")).sendKeys(generatedString);
 		driver.findElement(By.xpath("//input[@id='password']")).sendKeys("123456");
@@ -313,8 +306,11 @@ public class Topic_04_XPath_CSS_HomeWork {
 		sleepInSecond(1);
 
 		// Check message error
-		Assert.assertEquals(driver.findElement(By.xpath("//span[contains(text(),'Thank you for registering with Main Website Store.')]")).getText(),
-				"Thank you for registering with Main Website Store.");
+		Assert.assertTrue(driver.findElement(By.xpath("//span[contains(text(),'Thank you for registering with Main Website Store.')]")).isDisplayed());
+		
+		// Log out
+		driver.findElement(By.xpath("//span[@class='label' and text()='Account']")).click();
+		driver.findElement(By.xpath("//a[@title='Log Out']")).click();
 	}
 	
 	@Test
@@ -326,20 +322,15 @@ public class Topic_04_XPath_CSS_HomeWork {
 		driver.findElement(By.xpath(
 				"//div[@id='header-account']//li[@class='first']//a[@title='My Account' and text()='My Account']"))
 				.click();
-		driver.findElement(By.xpath("//input[@id='email']")).sendKeys("kane.pham@gmail.com");
+		driver.findElement(By.xpath("//input[@id='email' and @type='email']")).sendKeys("kane.pham@gmail.com");
 		driver.findElement(By.xpath("//input[@id='pass']")).sendKeys("123456");
 		driver.findElement(By.xpath("//button[@id='send2']")).click();
 		sleepInSecond(1);
 
 		// Check message error
-		Assert.assertEquals(driver.findElement(By.xpath("//h1[contains(text(),'My Dashboard')]")).getText(),
-				"MY DASHBOARD");
-		Assert.assertEquals(driver.findElement(By.xpath("//strong[contains(text(),'Hello, kane')]")).getText(),
-				"Hello, kane pham!");
-		Assert.assertEquals(driver.findElement(By.xpath("//p[contains(.,'kane.pham@gmail.com')]")).getText(),
-				"kane pham\r\n"
-				+ "kane.pham@gmail.com\r\n"
-				+ "Change Password");
+		Assert.assertTrue(driver.findElement(By.xpath("//div[@class='page-title']")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//p[@class='hello']")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//div[@class='box-content']")).isDisplayed());
 	}
 	
 	@AfterClass
