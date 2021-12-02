@@ -46,11 +46,9 @@ public class Topic_04_XPath_CSS_HomeWork {
 		Assert.assertEquals(driver.findElement(By.xpath("//label[@id='txtPassword-error']")).getText(),
 				"Vui lòng nhập mật khẩu");
 
-		Assert.assertEquals(driver.findElement(By.xpath("//label[@id='txtCPassword-error']")).getText(),
-				"Vui lòng nhập lại mật khẩu");
+		Assert.assertTrue(driver.findElement(By.xpath("//label[@id='txtCPassword-error']")).isDisplayed());
 
-		Assert.assertEquals(driver.findElement(By.xpath("//label[@id='txtPhone-error']")).getText(),
-				"Vui lòng nhập số điện thoại.");
+		Assert.assertTrue(driver.findElement(By.xpath("//label[@id='txtPhone-error']")).isDisplayed());
 	}
 
 	@Test
@@ -103,8 +101,7 @@ public class Topic_04_XPath_CSS_HomeWork {
 		sleepInSecond(1);
 
 		// Check message Error
-		Assert.assertEquals(driver.findElement(By.xpath("//label[@id='txtCEmail-error']")).getText(),
-				"Email nhập lại không đúng");
+		Assert.assertTrue(driver.findElement(By.xpath("//label[@id='txtCEmail-error']")).isDisplayed());
 	}
 
 	@Test
@@ -193,9 +190,9 @@ public class Topic_04_XPath_CSS_HomeWork {
 				"Số điện thoại bắt đầu bằng: 09 - 03 - 012 - 016 - 018 - 019");
 
 	}
-	
+
 	@Test
-	public void TC_01_LoginWithEmptyData(){
+	public void TC_01_LoginWithEmptyData() {
 		// step1
 		driver.get("http://live.guru99.com/");
 		// step2
@@ -214,7 +211,7 @@ public class Topic_04_XPath_CSS_HomeWork {
 	}
 
 	@Test
-	public void TC_02_LoginWithInvalidEmail(){
+	public void TC_02_LoginWithInvalidEmail() {
 		// step1
 		driver.get("http://live.guru99.com/");
 		// step2
@@ -230,9 +227,9 @@ public class Topic_04_XPath_CSS_HomeWork {
 		// Check message error
 		Assert.assertTrue(driver.findElement(By.xpath("//div[@id='advice-validate-email-email']")).isDisplayed());
 	}
-	
+
 	@Test
-	public void TC_03_LoginWithPasswordLess6Characters(){
+	public void TC_03_LoginWithPasswordLess6Characters() {
 		// step1
 		driver.get("http://live.guru99.com/");
 		// step2
@@ -248,9 +245,9 @@ public class Topic_04_XPath_CSS_HomeWork {
 		// Check message error
 		Assert.assertTrue(driver.findElement(By.xpath("//div[@id='advice-validate-password-pass']")).isDisplayed());
 	}
-	
+
 	@Test
-	public void TC_04_LoginWithIncorrect(){
+	public void TC_04_LoginWithIncorrect() {
 		// step1
 		driver.get("http://live.guru99.com/");
 		// step2
@@ -264,26 +261,26 @@ public class Topic_04_XPath_CSS_HomeWork {
 		sleepInSecond(1);
 
 		// Check message error
-		Assert.assertTrue(driver.findElement(By.xpath("//span[contains(text(),'Invalid login or password.')]")).isDisplayed());
+		Assert.assertTrue(
+				driver.findElement(By.xpath("//span[contains(text(),'Invalid login or password.')]")).isDisplayed());
 	}
-	
+
 	public String RandomString() {
-        int leftLimit = 97; // letter 'a'
-        int rightLimit = 122; // letter 'z'
-        int len = 5;
-        Random random = new Random();
-        StringBuilder buffer = new StringBuilder(len);
-        for (int i = 0; i < len; i++) {
-            int randomLimitedInt = leftLimit + (int)
-                    (random.nextFloat() * (rightLimit - leftLimit + 1));
-            buffer.append((char) randomLimitedInt);
-        }
-        String generatedString = buffer.toString();
-        return generatedString;
-    }
-	
+		int leftLimit = 97; // letter 'a'
+		int rightLimit = 122; // letter 'z'
+		int len = 5;
+		Random random = new Random();
+		StringBuilder buffer = new StringBuilder(len);
+		for (int i = 0; i < len; i++) {
+			int randomLimitedInt = leftLimit + (int) (random.nextFloat() * (rightLimit - leftLimit + 1));
+			buffer.append((char) randomLimitedInt);
+		}
+		String generatedString = buffer.toString();
+		return generatedString;
+	}
+
 	@Test
-	public void TC_05_LoginWithIncorrect(){
+	public void TC_05_LoginWithIncorrect() {
 		// step1
 		driver.get("http://live.guru99.com/");
 		// step2
@@ -292,8 +289,8 @@ public class Topic_04_XPath_CSS_HomeWork {
 				"//div[@id='header-account']//li[@class='first']//a[@title='My Account' and text()='My Account']"))
 				.click();
 		driver.findElement(By.xpath("//a[@title='Create an Account']")).click();
-		//random email
-	    String generatedString = RandomString() + "@gmail.com";
+		// random email
+		String generatedString = RandomString() + "@gmail.com";
 		//
 		driver.findElement(By.xpath("//input[@id='firstname']")).sendKeys("Kanee");
 		driver.findElement(By.xpath("//input[@id='lastname']")).sendKeys("Pham");
@@ -302,19 +299,21 @@ public class Topic_04_XPath_CSS_HomeWork {
 		driver.findElement(By.xpath("//input[@id='confirmation']")).sendKeys("123456");
 		driver.findElement(By.xpath("//input[@id='is_subscribed']")).click();
 		driver.findElement(By.xpath("//button[@title='Register']")).click();
-		
+
 		sleepInSecond(1);
 
 		// Check message error
-		Assert.assertTrue(driver.findElement(By.xpath("//span[contains(text(),'Thank you for registering with Main Website Store.')]")).isDisplayed());
-		
+		Assert.assertTrue(driver
+				.findElement(By.xpath("//span[contains(text(),'Thank you for registering with Main Website Store.')]"))
+				.isDisplayed());
+
 		// Log out
 		driver.findElement(By.xpath("//span[@class='label' and text()='Account']")).click();
 		driver.findElement(By.xpath("//a[@title='Log Out']")).click();
 	}
-	
+
 	@Test
-	public void TC_06_LoginWithValidAccount(){
+	public void TC_06_LoginWithValidAccount() {
 		// step1
 		driver.get("http://live.guru99.com/");
 		// step2
@@ -331,8 +330,67 @@ public class Topic_04_XPath_CSS_HomeWork {
 		Assert.assertTrue(driver.findElement(By.xpath("//div[@class='page-title']")).isDisplayed());
 		Assert.assertTrue(driver.findElement(By.xpath("//p[@class='hello']")).isDisplayed());
 		Assert.assertTrue(driver.findElement(By.xpath("//div[@class='box-content']")).isDisplayed());
+		
+		// Log out
+				driver.findElement(By.xpath("//span[@class='label' and text()='Account']")).click();
+				driver.findElement(By.xpath("//a[@title='Log Out']")).click();
+	}
+
+	@Test
+	public void TC_07_AddToCartItem() {
+		// step1
+		driver.get("http://live.guru99.com/");
+		// step2
+		driver.findElement(By.xpath("//span[@class='label' and text()='Account']")).click();
+		driver.findElement(By.xpath(
+				"//div[@id='header-account']//li[@class='first']//a[@title='My Account' and text()='My Account']"))
+				.click();
+		driver.findElement(By.xpath("//input[@id='email' and @type='email']")).sendKeys("kane.pham@gmail.com");
+		driver.findElement(By.xpath("//input[@id='pass']")).sendKeys("123456");
+		driver.findElement(By.xpath("//button[@id='send2']")).click();
+		driver.findElement(By.xpath("//a[@class='level0 ' and contains(text(),'Mobile')]")).click();
+		driver.findElement(By.xpath("//a[@title='IPhone']/parent::h2/following-sibling::div[@class='actions']//button"))
+				.click();
+
+		sleepInSecond(1);
+
+		// Check message error
+		Assert.assertTrue(
+				driver.findElement(By.xpath("//span[contains(text(),'added to your shopping cart')]")).isDisplayed());
+		
+		// Log out
+				driver.findElement(By.xpath("//span[@class='label' and text()='Account']")).click();
+				driver.findElement(By.xpath("//a[@title='Log Out']")).click();
 	}
 	
+	@Test
+	public void TC_08_EmptyCartItem() {
+		// step1
+		driver.get("http://live.guru99.com/");
+		// step2
+		driver.findElement(By.xpath("//span[@class='label' and text()='Account']")).click();
+		driver.findElement(By.xpath(
+				"//div[@id='header-account']//li[@class='first']//a[@title='My Account' and text()='My Account']"))
+				.click();
+		driver.findElement(By.xpath("//input[@id='email' and @type='email']")).sendKeys("kane.pham@gmail.com");
+		driver.findElement(By.xpath("//input[@id='pass']")).sendKeys("123456");
+		driver.findElement(By.xpath("//button[@id='send2']")).click();
+		driver.findElement(By.xpath("//a[@class='level0 ' and contains(text(),'Mobile')]")).click();
+		driver.findElement(By.xpath("//a[@title='IPhone']/parent::h2/following-sibling::div[@class='actions']//button"))
+				.click();
+		driver.findElement(By.xpath("//span[contains(text(),'Empty')]")).click();
+
+		sleepInSecond(1);
+
+		// Check message error
+		Assert.assertTrue(
+				driver.findElement(By.cssSelector(".page-title")).isDisplayed());
+		
+		// Log out
+				driver.findElement(By.xpath("//span[@class='label' and text()='Account']")).click();
+				driver.findElement(By.xpath("//a[@title='Log Out']")).click();
+	}
+
 	@AfterClass
 	public void afterClass() {
 		driver.quit();
