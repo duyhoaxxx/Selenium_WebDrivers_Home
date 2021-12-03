@@ -20,16 +20,16 @@ public class Topic_04_XPath_CSS_HomeWork {
 	@BeforeClass
 	public void beforeClass() {	
 		//Chorme
-		//System.setProperty("webdriver.chrome.driver", projectPath + "\\browserDrivers\\chromedriver.exe");
-		//driver = new ChromeDriver();
+		System.setProperty("webdriver.chrome.driver", projectPath + "\\browserDrivers\\chromedriver.exe");
+		driver = new ChromeDriver();
 		
 		//Firefox
 		//System.setProperty("webdriver.gecko.driver", projectPath + "\\browserDrivers\\geckodriver.exe");
 		//driver = new FirefoxDriver();
 		
 		//EDGE
-		System.setProperty("webdriver.edge.driver", projectPath + "\\browserDrivers\\msedgedriver.exe");
-		driver = new EdgeDriver();
+		//System.setProperty("webdriver.edge.driver", projectPath + "\\browserDrivers\\msedgedriver.exe");
+		//driver = new EdgeDriver();
 		
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 	}
