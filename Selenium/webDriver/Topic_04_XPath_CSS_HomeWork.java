@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -17,12 +18,19 @@ public class Topic_04_XPath_CSS_HomeWork {
 	String projectPath = System.getProperty("user.dir");
 
 	@BeforeClass
-	public void beforeClass() {
+	public void beforeClass() {	
+		//Chorme
+		//System.setProperty("webdriver.chrome.driver", projectPath + "\\browserDrivers\\chromedriver.exe");
+		//driver = new ChromeDriver();
+		
+		//Firefox
 		//System.setProperty("webdriver.gecko.driver", projectPath + "\\browserDrivers\\geckodriver.exe");
 		//driver = new FirefoxDriver();
 		
-		System.setProperty("webdriver.chrome.driver", projectPath + "\\browserDrivers\\chromedriver.exe");
-		driver = new ChromeDriver();
+		//EDGE
+		System.setProperty("webdriver.edge.driver", projectPath + "\\browserDrivers\\msedgedriver.exe");
+		driver = new EdgeDriver();
+		
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 	}
 
