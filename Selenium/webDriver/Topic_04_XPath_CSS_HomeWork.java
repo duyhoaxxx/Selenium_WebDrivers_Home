@@ -19,7 +19,8 @@ public class Topic_04_XPath_CSS_HomeWork {
 
 	@BeforeClass
 	public void beforeClass() {
-		int Set_Browser = 0;
+		Random random = new Random();
+		int Set_Browser = random.nextInt();
 		if (Set_Browser % 3 == 0) {
 			// Chorme
 			System.setProperty("webdriver.chrome.driver", projectPath + "\\browserDrivers\\chromedriver.exe");
