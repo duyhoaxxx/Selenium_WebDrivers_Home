@@ -1,6 +1,7 @@
 package webDriver;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 import java.util.concurrent.TimeUnit;
 
@@ -79,6 +80,21 @@ public class Topic_06_Web_Browser_Command {
 		assertEquals(driver.getCurrentUrl(), "http://live.techpanda.org/index.php/customer/account/login/");
 		driver.navigate().forward();
 		assertEquals(driver.getTitle(), "Create New Customer Account");
+	}
+
+	@Test
+	public void TC_04_Browser_Get_Page_Resource() {
+		driver.get("http://live.techpanda.org/");
+		driver.findElement(By.xpath("//span[@class='label' and text()='Account']")).click();
+
+		driver.findElement(By.xpath(
+				"//div[@id='header-account']//li[@class='first']//a[@title='My Account' and text()='My Account']"))
+				.click();
+		String pageResource = driver.getPageSource();
+		assertTrue(pageResource.contains("Login or Create an Account"));
+
+		driver.findElement(By.xpath("//span[contains(text(),'Create an Account')]")).click();
+		assertTrue(driver.getPageSource().contains("Create an Account"));
 	}
 
 	@AfterClass

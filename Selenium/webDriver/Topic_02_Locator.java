@@ -9,6 +9,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+
 public class Topic_02_Locator {
 	WebDriver driver;
 	String projectPath = System.getProperty("user.dir");
@@ -30,9 +31,9 @@ public class Topic_02_Locator {
 	public void TC_01() {
 		// Selenium Locator
 		driver.findElement(By.cssSelector("input[id='search']")).sendKeys("Thay long Remix");
-		sleepInSecond(1);
 		driver.findElement(By.cssSelector("button[id='search-icon-legacy']")).click();
 		sleepInSecond(3);
+
 	}
 
 	@AfterClass
