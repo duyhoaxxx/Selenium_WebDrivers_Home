@@ -41,11 +41,8 @@ public class Topic_06_Web_Browser_Command {
 	@Test
 	public void TC_01_Browser_Veryfy_Url() {
 		driver.get("http://live.techpanda.org/");
-		driver.findElement(By.xpath("//span[@class='label' and text()='Account']")).click();
+		driver.findElement(By.xpath("//div[@class='footer']//a[@title='My Account']")).click();
 
-		driver.findElement(By.xpath(
-				"//div[@id='header-account']//li[@class='first']//a[@title='My Account' and text()='My Account']"))
-				.click();
 		assertEquals(driver.getCurrentUrl(), "http://live.techpanda.org/index.php/customer/account/login/");
 
 		driver.findElement(By.xpath("//span[contains(text(),'Create an Account')]")).click();
@@ -55,11 +52,7 @@ public class Topic_06_Web_Browser_Command {
 	@Test
 	public void TC_02_Browser_Veryfy_Title() {
 		driver.get("http://live.techpanda.org/");
-		driver.findElement(By.xpath("//span[@class='label' and text()='Account']")).click();
-
-		driver.findElement(By.xpath(
-				"//div[@id='header-account']//li[@class='first']//a[@title='My Account' and text()='My Account']"))
-				.click();
+		driver.findElement(By.xpath("//div[@class='footer']//a[@title='My Account']")).click();
 		assertEquals(driver.getTitle(), "Customer Login");
 
 		driver.findElement(By.xpath("//span[contains(text(),'Create an Account')]")).click();
@@ -69,11 +62,7 @@ public class Topic_06_Web_Browser_Command {
 	@Test
 	public void TC_03_Browser_Navigation() {
 		driver.get("http://live.techpanda.org/");
-		driver.findElement(By.xpath("//span[@class='label' and text()='Account']")).click();
-
-		driver.findElement(By.xpath(
-				"//div[@id='header-account']//li[@class='first']//a[@title='My Account' and text()='My Account']"))
-				.click();
+		driver.findElement(By.xpath("//div[@class='footer']//a[@title='My Account']")).click();
 		driver.findElement(By.xpath("//span[contains(text(),'Create an Account')]")).click();
 		assertEquals(driver.getCurrentUrl(), "http://live.techpanda.org/index.php/customer/account/create/");
 		driver.navigate().back();
@@ -85,11 +74,7 @@ public class Topic_06_Web_Browser_Command {
 	@Test
 	public void TC_04_Browser_Get_Page_Resource() {
 		driver.get("http://live.techpanda.org/");
-		driver.findElement(By.xpath("//span[@class='label' and text()='Account']")).click();
-
-		driver.findElement(By.xpath(
-				"//div[@id='header-account']//li[@class='first']//a[@title='My Account' and text()='My Account']"))
-				.click();
+		driver.findElement(By.xpath("//div[@class='footer']//a[@title='My Account']")).click();
 		String pageResource = driver.getPageSource();
 		assertTrue(pageResource.contains("Login or Create an Account"));
 
