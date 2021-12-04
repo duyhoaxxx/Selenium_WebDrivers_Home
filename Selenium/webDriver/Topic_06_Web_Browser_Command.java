@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -80,6 +81,41 @@ public class Topic_06_Web_Browser_Command {
 
 		driver.findElement(By.xpath("//span[contains(text(),'Create an Account')]")).click();
 		assertTrue(driver.getPageSource().contains("Create an Account"));
+	}
+
+	@Test
+	public void TC_01_Element_IsDisplay() {
+		driver.get("https://automationfc.github.io/basic-form/index.html");
+		assertTrue(driver.findElement(By.xpath("//label[@for='email']")).isDisplayed());
+		WebElement TestEmail = driver
+				.findElement(By.xpath("//legend[contains(.,'Your basic info')]/following-sibling::label[@for='mail']"));
+		if (TestEmail.isDisplayed()) {
+			driver.findElement(By.xpath("//input[@type='email'and@name='user_email']")).clear();
+			driver.findElement(By.xpath("//input[@type='email'and@name='user_email']")).sendKeys("Automation Testing");
+		}
+
+		assertTrue(driver.findElement(By.xpath("//label[@for='under_18']")).isDisplayed());
+		WebElement TestAge = driver.findElement(By.xpath("//label[contains(.,'Age')]"));
+		if (TestAge.isDisplayed()) {
+			if (TestAge.findElement(By.xpath("//label[@for='under_18']")).isDisplayed()) {
+				TestAge.findElement(By.xpath("//label[@for='under_18']")).click();
+			}
+		}
+		WebElement TestEdu = driver
+				.findElement(By.xpath("//legend[contains(.,'Your profile')]/following-sibling::label[@for='edu']"));
+		if (TestEdu.isDisplayed()) {
+			driver.findElement(By.xpath("//textarea[@id='edu']")).clear();
+			driver.findElement(By.xpath("//textarea[@id='edu']")).sendKeys("Automation Testing");
+		}
+		
+		WebElement TestDisplay = driver
+				.findElement(By.xpath("//h5[contains(.,'User5')]"));
+		if(TestDisplay.isDisplayed()) {
+			System.out.println("Element is displayed");
+		}
+		else {
+			System.out.println("Element is not displayed");
+		}
 	}
 
 	@AfterClass
