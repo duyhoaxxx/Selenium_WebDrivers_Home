@@ -19,19 +19,20 @@ public class Topic_06_Web_Browser_Command {
 
 	@BeforeClass
 	public void beforeClass() {
-		// Chorme
-		System.setProperty("webdriver.chrome.driver", projectPath + "\\browserDrivers\\chromedriver.exe");
-		driver = new ChromeDriver();
-
-		// Firefox
-		// System.setProperty("webdriver.gecko.driver", projectPath +
-		// "\\browserDrivers\\geckodriver.exe");
-		// driver = new FirefoxDriver();
-
-		// EDGE
-		// System.setProperty("webdriver.edge.driver", projectPath +
-		// "\\browserDrivers\\msedgedriver.exe");
-		// driver = new EdgeDriver();
+		int Set_Browser = 0;
+		if (Set_Browser % 3 == 0) {
+			// Chorme
+			System.setProperty("webdriver.chrome.driver", projectPath + "\\browserDrivers\\chromedriver.exe");
+			driver = new ChromeDriver();
+		} else if (Set_Browser % 3 == 1) {
+			// Firefox
+			System.setProperty("webdriver.gecko.driver", projectPath + "\\browserDrivers\\geckodriver.exe");
+			driver = new FirefoxDriver();
+		} else {
+			// EDGE
+			System.setProperty("webdriver.edge.driver", projectPath + "\\browserDrivers\\msedgedriver.exe");
+			driver = new EdgeDriver();
+		}
 
 		driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 	}
