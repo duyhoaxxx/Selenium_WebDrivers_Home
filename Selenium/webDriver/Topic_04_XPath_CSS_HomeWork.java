@@ -44,15 +44,14 @@ public class Topic_04_XPath_CSS_HomeWork {
 		driver.get("https://alada.vn/tai-khoan/dang-ky.html");
 		// click button "dang ky"
 		driver.findElement(By.xpath("//button[@class='btn_pink_sm fs16']")).click();
-		
+
 		// Check message error
 		Assert.assertEquals(driver.findElement(By.xpath("//label[@id='txtFirstname-error']")).getText(),
 				"Vui lòng nhập họ tên");
 		Assert.assertEquals(driver.findElement(By.xpath("//label[contains(text(),'nhập họ tên')]")).getText(),
 				"Vui lòng nhập họ tên");
 
-		Assert.assertEquals(driver.findElement(By.xpath("//label[@id='txtEmail-error']")).getText(),
-				"Vui lòng nhập email");
+		Assert.assertEquals(driver.findElement(By.xpath("//label[@id='txtEmail-error']")), "Vui lòng nhập email");
 		Assert.assertEquals(driver.findElement(By.xpath("//label[contains(@id,'txtEmail')]")).getText(),
 				"Vui lòng nhập email");
 
@@ -86,7 +85,6 @@ public class Topic_04_XPath_CSS_HomeWork {
 		driver.findElement(By.xpath("//input[@id='txtPhone']")).sendKeys("0123456789");
 
 		driver.findElement(By.xpath("//button[@class='btn_pink_sm fs16']")).click();
-		
 
 		// Check message Error
 		Assert.assertEquals(driver.findElement(By.xpath("//label[contains(@id,'txtEmail')]")).getText(),
@@ -114,7 +112,6 @@ public class Topic_04_XPath_CSS_HomeWork {
 		driver.findElement(By.xpath("//input[@id='txtPhone']")).sendKeys("0123456789");
 
 		driver.findElement(By.xpath("//button[@class='btn_pink_sm fs16']")).click();
-		
 
 		// Check message Error
 		Assert.assertTrue(driver.findElement(By.xpath("//label[@id='txtCEmail-error']")).isDisplayed());
@@ -139,7 +136,6 @@ public class Topic_04_XPath_CSS_HomeWork {
 		driver.findElement(By.xpath("//input[@id='txtPhone']")).sendKeys("0123456789");
 
 		driver.findElement(By.xpath("//button[@class='btn_pink_sm fs16']")).click();
-		
 
 		// Check message Error
 		Assert.assertTrue(driver.findElement(By.xpath("//label[@id='txtPassword-error']")).isDisplayed());
@@ -165,7 +161,6 @@ public class Topic_04_XPath_CSS_HomeWork {
 		driver.findElement(By.xpath("//input[@id='txtPhone']")).sendKeys("0123456789");
 
 		driver.findElement(By.xpath("//button[@class='btn_pink_sm fs16']")).click();
-		
 
 		// Check message Error
 
@@ -192,7 +187,6 @@ public class Topic_04_XPath_CSS_HomeWork {
 		driver.findElement(By.xpath("//input[@id='txtPhone']")).sendKeys("012345");
 
 		driver.findElement(By.xpath("//button[@class='btn_pink_sm fs16']")).click();
-		
 
 		// Check message Error
 		Assert.assertTrue(driver.findElement(By.xpath("//label[@id='txtPhone-error']")).isDisplayed());
@@ -200,7 +194,6 @@ public class Topic_04_XPath_CSS_HomeWork {
 		driver.findElement(By.xpath("//input[@id='txtPhone']")).clear();
 		driver.findElement(By.xpath("//input[@id='txtPhone']")).sendKeys("0523452569");
 		driver.findElement(By.xpath("//button[@class='btn_pink_sm fs16']")).click();
-		
 
 		Assert.assertEquals(driver.findElement(By.xpath("//label[@id='txtPhone-error']")).getText(),
 				"Số điện thoại bắt đầu bằng: 09 - 03 - 012 - 016 - 018 - 019");
@@ -217,7 +210,6 @@ public class Topic_04_XPath_CSS_HomeWork {
 				"//div[@id='header-account']//li[@class='first']//a[@title='My Account' and text()='My Account']"))
 				.click();
 		driver.findElement(By.xpath("//button[@id='send2']")).click();
-		
 
 		// Check message error
 		Assert.assertEquals(driver.findElement(By.xpath("//div[@id='advice-required-entry-email']")).getText(),
@@ -238,7 +230,6 @@ public class Topic_04_XPath_CSS_HomeWork {
 		driver.findElement(By.xpath("//input[@id='email']")).sendKeys("12345@123.123");
 		driver.findElement(By.xpath("//input[@id='pass']")).sendKeys("123456");
 		driver.findElement(By.xpath("//button[@id='send2']")).click();
-		
 
 		// Check message error
 		Assert.assertTrue(driver.findElement(By.xpath("//div[@id='advice-validate-email-email']")).isDisplayed());
@@ -256,7 +247,6 @@ public class Topic_04_XPath_CSS_HomeWork {
 		driver.findElement(By.xpath("//input[@id='email']")).sendKeys("automation@gmail.com");
 		driver.findElement(By.xpath("//input[@id='pass']")).sendKeys("123");
 		driver.findElement(By.xpath("//button[@id='send2']")).click();
-		
 
 		// Check message error
 		Assert.assertTrue(driver.findElement(By.xpath("//div[@id='advice-validate-password-pass']")).isDisplayed());
@@ -274,7 +264,6 @@ public class Topic_04_XPath_CSS_HomeWork {
 		driver.findElement(By.xpath("//input[@id='email']")).sendKeys("automation@gmail.com");
 		driver.findElement(By.xpath("//input[@id='pass']")).sendKeys("12356789");
 		driver.findElement(By.xpath("//button[@id='send2']")).click();
-		
 
 		// Check message error
 		Assert.assertTrue(
@@ -316,8 +305,6 @@ public class Topic_04_XPath_CSS_HomeWork {
 		driver.findElement(By.xpath("//input[@id='is_subscribed']")).click();
 		driver.findElement(By.xpath("//button[@title='Register']")).click();
 
-		
-
 		// Check message error
 		Assert.assertTrue(driver
 				.findElement(By.xpath("//span[contains(text(),'Thank you for registering with Main Website Store.')]"))
@@ -340,15 +327,15 @@ public class Topic_04_XPath_CSS_HomeWork {
 		driver.findElement(By.xpath("//input[@id='email' and @type='email']")).sendKeys("kane.pham@gmail.com");
 		driver.findElement(By.xpath("//input[@id='pass']")).sendKeys("123456");
 		driver.findElement(By.xpath("//button[@id='send2']")).click();
-		
+
 		// Check message error
 		Assert.assertTrue(driver.findElement(By.xpath("//div[@class='page-title']")).isDisplayed());
 		Assert.assertTrue(driver.findElement(By.xpath("//p[@class='hello']")).isDisplayed());
 		Assert.assertTrue(driver.findElement(By.xpath("//div[@class='box-content']")).isDisplayed());
-		
+
 		// Log out
-				driver.findElement(By.xpath("//span[@class='label' and text()='Account']")).click();
-				driver.findElement(By.xpath("//a[@title='Log Out']")).click();
+		driver.findElement(By.xpath("//span[@class='label' and text()='Account']")).click();
+		driver.findElement(By.xpath("//a[@title='Log Out']")).click();
 	}
 
 	@Test
@@ -367,17 +354,15 @@ public class Topic_04_XPath_CSS_HomeWork {
 		driver.findElement(By.xpath("//a[@title='IPhone']/parent::h2/following-sibling::div[@class='actions']//button"))
 				.click();
 
-		
-
 		// Check message error
 		Assert.assertTrue(
 				driver.findElement(By.xpath("//span[contains(text(),'added to your shopping cart')]")).isDisplayed());
-		
+
 		// Log out
-				driver.findElement(By.xpath("//span[@class='label' and text()='Account']")).click();
-				driver.findElement(By.xpath("//a[@title='Log Out']")).click();
+		driver.findElement(By.xpath("//span[@class='label' and text()='Account']")).click();
+		driver.findElement(By.xpath("//a[@title='Log Out']")).click();
 	}
-	
+
 	@Test
 	public void TC_08_EmptyCartItem() {
 		// step1
@@ -395,15 +380,12 @@ public class Topic_04_XPath_CSS_HomeWork {
 				.click();
 		driver.findElement(By.xpath("//span[contains(text(),'Empty')]")).click();
 
-		
-
 		// Check message error
-		Assert.assertTrue(
-				driver.findElement(By.cssSelector(".page-title")).isDisplayed());
-		
+		Assert.assertTrue(driver.findElement(By.cssSelector(".page-title")).isDisplayed());
+
 		// Log out
-				driver.findElement(By.xpath("//span[@class='label' and text()='Account']")).click();
-				driver.findElement(By.xpath("//a[@title='Log Out']")).click();
+		driver.findElement(By.xpath("//span[@class='label' and text()='Account']")).click();
+		driver.findElement(By.xpath("//a[@title='Log Out']")).click();
 	}
 
 	@AfterClass

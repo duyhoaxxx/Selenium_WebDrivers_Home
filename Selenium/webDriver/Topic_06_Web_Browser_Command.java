@@ -12,6 +12,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -45,20 +46,20 @@ public class Topic_06_Web_Browser_Command {
 		driver.get("http://live.techpanda.org/");
 		driver.findElement(By.xpath("//div[@class='footer']//a[@title='My Account']")).click();
 
-		assertEquals(driver.getCurrentUrl(), "http://live.techpanda.org/index.php/customer/account/login/");
+		Assert.assertEquals(driver.getCurrentUrl(), "http://live.techpanda.org/index.php/customer/account/login/");
 
 		driver.findElement(By.xpath("//span[contains(text(),'Create an Account')]")).click();
-		assertEquals(driver.getCurrentUrl(), "http://live.techpanda.org/index.php/customer/account/create/");
+		Assert.assertEquals(driver.getCurrentUrl(), "http://live.techpanda.org/index.php/customer/account/create/");
 	}
 
 	@Test
 	public void TC_02_Browser_Veryfy_Title() {
 		driver.get("http://live.techpanda.org/");
 		driver.findElement(By.xpath("//div[@class='footer']//a[@title='My Account']")).click();
-		assertEquals(driver.getTitle(), "Customer Login");
+		Assert.assertEquals(driver.getTitle(), "Customer Login");
 
 		driver.findElement(By.xpath("//span[contains(text(),'Create an Account')]")).click();
-		assertEquals(driver.getTitle(), "Create New Customer Account");
+		Assert.assertEquals(driver.getTitle(), "Create New Customer Account");
 	}
 
 	@Test
@@ -66,11 +67,11 @@ public class Topic_06_Web_Browser_Command {
 		driver.get("http://live.techpanda.org/");
 		driver.findElement(By.xpath("//div[@class='footer']//a[@title='My Account']")).click();
 		driver.findElement(By.xpath("//span[contains(text(),'Create an Account')]")).click();
-		assertEquals(driver.getCurrentUrl(), "http://live.techpanda.org/index.php/customer/account/create/");
+		Assert.assertEquals(driver.getCurrentUrl(), "http://live.techpanda.org/index.php/customer/account/create/");
 		driver.navigate().back();
-		assertEquals(driver.getCurrentUrl(), "http://live.techpanda.org/index.php/customer/account/login/");
+		Assert.assertEquals(driver.getCurrentUrl(), "http://live.techpanda.org/index.php/customer/account/login/");
 		driver.navigate().forward();
-		assertEquals(driver.getTitle(), "Create New Customer Account");
+		Assert.assertEquals(driver.getTitle(), "Create New Customer Account");
 	}
 
 	@Test
@@ -78,10 +79,10 @@ public class Topic_06_Web_Browser_Command {
 		driver.get("http://live.techpanda.org/");
 		driver.findElement(By.xpath("//div[@class='footer']//a[@title='My Account']")).click();
 		String pageResource = driver.getPageSource();
-		assertTrue(pageResource.contains("Login or Create an Account"));
+		Assert.assertTrue(pageResource.contains("Login or Create an Account"));
 
 		driver.findElement(By.xpath("//span[contains(text(),'Create an Account')]")).click();
-		assertTrue(driver.getPageSource().contains("Create an Account"));
+		Assert.assertTrue(driver.getPageSource().contains("Create an Account"));
 	}
 
 	@Test
@@ -202,7 +203,7 @@ public class Topic_06_Web_Browser_Command {
 			System.out.println("Age is Selected");
 		else
 			System.out.println("Age is not Selected");
-		
+
 		if (TestLanguage.isSelected())
 			System.out.println("Age is Selected");
 		else
@@ -215,32 +216,39 @@ public class Topic_06_Web_Browser_Command {
 		else
 			System.out.println("Age is not Selected");
 	}
-	
+
 	@Test
 	public void TC_04_Element_Register_Function() {
+		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		driver.get("https://login.mailchimp.com/signup/");
-		
+
 		driver.findElement(By.xpath("//input[@id='email']")).sendKeys("Autotest@gmail.com");
-		driver.findElement(By.xpath("//input[@id='new_username']")).sendKeys("Auto Test");
+		driver.findElement(By.xpath("//input[@id='new_username']")).sendKeys("AutoTest");
 		WebElement pass = driver.findElement(By.xpath("//input[@id='new_password']"));
 		pass.sendKeys("1");
-		assertFalse(driver.findElement(By.xpath("//li[@class='number-char']")).isDisplayed());
-		pass.sendKeys("a");
-		assertFalse(driver.findElement(By.xpath("//li[@class='lowercase-char']")).isDisplayed());
-		pass.sendKeys("A");
-		assertFalse(driver.findElement(By.xpath("//li[@class='uppercase-char']")).isDisplayed());
-		pass.sendKeys("@");
-		assertFalse(driver.findElement(By.xpath("//li[@class='special-char']")).isDisplayed());
-		pass.sendKeys("1111");
-		assertFalse(driver.findElement(By.xpath("//button[@id='create-account']']")).isDisplayed());
-		//pass.sendKeys("111111111111111111111111111111111111111111111111111111");
-		//assertFalse(driver.findElement(By.xpath("//li[@class='plus-50 error']")).isDisplayed());
-		
-		sleepInSecond(2);
-		
+		Assert.assertFalse(driver.findElement(By.xpath("//li[@class='number-char completed' and text()='One number']"))
+				.isDisplayed());
+//		pass.sendKeys("a");
+//		assertFalse(driver.findElement(By.xpath("//li[@class='lowercase-char']")).isDisplayed());
+
+		// pass.sendKeys("A");
+		// Assert.assertTrue(driver.findElement(By.xpath("//li[@class='uppercase-char
+		// completed' and text()='One uppercase character']")).isDisplayed());
+
+//		pass.sendKeys("@");
+//		assertFalse(driver.findElement(By.xpath("//li[@class='special-char']")).isDisplayed());
+//		pass.sendKeys("1111");
+
+//		pass.clear();
+//		pass.sendKeys("1aA@12345");
+//		assertTrue(driver.findElement(By.xpath("//button[@id='create-account']")).isDisplayed());
+		// pass.sendKeys("111111111111111111111111111111111111111111111111111111");
+		// assertFalse(driver.findElement(By.xpath("//li[@class='plus-50
+		// error']")).isDisplayed());
+
 	}
 
-	@AfterClass 	
+	@AfterClass
 	public void afterClass() {
 		driver.quit();
 	}
