@@ -219,7 +219,7 @@ public class Topic_06_Web_Browser_Command {
 
 	@Test
 	public void TC_04_Element_Register_Function() {
-		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+		//driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		driver.get("https://login.mailchimp.com/signup/");
 
 		driver.findElement(By.xpath("//input[@id='email']")).sendKeys("Autotest@gmail.com");
@@ -259,7 +259,13 @@ public class Topic_06_Web_Browser_Command {
 		pass.clear();
 		pass.sendKeys("1aA@12345");
 		Assert.assertTrue(driver.findElement(By.xpath("//button[@id='create-account']")).isEnabled());
-
+		sleepInSecond(1);
+		
+		WebElement checkBox = driver.findElement(By.xpath("//input[@name='marketing_newsletter']"));
+		checkBox.click();
+		Assert.assertTrue(checkBox.isSelected());
+		sleepInSecond(1);
+		
 	}
 
 	@AfterClass
