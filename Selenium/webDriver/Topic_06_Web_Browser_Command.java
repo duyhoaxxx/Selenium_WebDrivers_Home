@@ -1,9 +1,5 @@
 package webDriver;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
-
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
@@ -227,6 +223,7 @@ public class Topic_06_Web_Browser_Command {
 		WebElement pass = driver.findElement(By.xpath("//input[@id='new_password']"));
 		WebElement button = driver.findElement(By.xpath("//button[@id='create-account']"));
 
+		pass.clear();
 		pass.sendKeys("123");
 		Assert.assertFalse(driver.findElement(By.xpath("//li[@class='number-char completed']")).isDisplayed());
 		Assert.assertFalse(button.isEnabled());
