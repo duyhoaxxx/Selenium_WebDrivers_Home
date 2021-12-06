@@ -225,26 +225,40 @@ public class Topic_06_Web_Browser_Command {
 		driver.findElement(By.xpath("//input[@id='email']")).sendKeys("Autotest@gmail.com");
 		driver.findElement(By.xpath("//input[@id='new_username']")).sendKeys("AutoTest");
 		WebElement pass = driver.findElement(By.xpath("//input[@id='new_password']"));
-		pass.sendKeys("1");
-		Assert.assertFalse(driver.findElement(By.xpath("//li[@class='number-char completed' and text()='One number']"))
-				.isDisplayed());
-//		pass.sendKeys("a");
-//		assertFalse(driver.findElement(By.xpath("//li[@class='lowercase-char']")).isDisplayed());
+		WebElement button = driver.findElement(By.xpath("//button[@id='create-account']"));
 
-		// pass.sendKeys("A");
-		// Assert.assertTrue(driver.findElement(By.xpath("//li[@class='uppercase-char
-		// completed' and text()='One uppercase character']")).isDisplayed());
+		pass.sendKeys("123");
+		Assert.assertFalse(driver.findElement(By.xpath("//li[@class='number-char completed']")).isDisplayed());
+		Assert.assertFalse(button.isEnabled());
+		sleepInSecond(1);
 
-//		pass.sendKeys("@");
-//		assertFalse(driver.findElement(By.xpath("//li[@class='special-char']")).isDisplayed());
-//		pass.sendKeys("1111");
+		pass.clear();
+		pass.sendKeys("abc");
+		Assert.assertTrue(driver.findElement(By.xpath("//li[@class='lowercase-char completed']")).isDisplayed());
+		Assert.assertFalse(button.isEnabled());
+		sleepInSecond(1);
 
-//		pass.clear();
-//		pass.sendKeys("1aA@12345");
-//		assertTrue(driver.findElement(By.xpath("//button[@id='create-account']")).isDisplayed());
-		// pass.sendKeys("111111111111111111111111111111111111111111111111111111");
-		// assertFalse(driver.findElement(By.xpath("//li[@class='plus-50
-		// error']")).isDisplayed());
+		pass.clear();
+		pass.sendKeys("ABC");
+		Assert.assertTrue(driver.findElement(By.xpath("//li[@class='uppercase-char completed']")).isDisplayed());
+		Assert.assertFalse(button.isEnabled());
+		sleepInSecond(1);
+
+		pass.clear();
+		pass.sendKeys("@#$&");
+		Assert.assertTrue(driver.findElement(By.xpath("//li[@class='special-char completed']")).isDisplayed());
+		Assert.assertFalse(button.isEnabled());
+		sleepInSecond(1);
+
+		pass.clear();
+		pass.sendKeys("1234567890");
+		Assert.assertTrue(driver.findElement(By.xpath("//li[@class='8-char completed']")).isDisplayed());
+		Assert.assertFalse(button.isEnabled());
+		sleepInSecond(1);
+
+		pass.clear();
+		pass.sendKeys("1aA@12345");
+		Assert.assertTrue(driver.findElement(By.xpath("//button[@id='create-account']")).isEnabled());
 
 	}
 
