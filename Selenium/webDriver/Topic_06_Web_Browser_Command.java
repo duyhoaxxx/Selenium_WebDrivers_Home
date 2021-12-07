@@ -225,41 +225,48 @@ public class Topic_06_Web_Browser_Command {
 
 		pass.clear();
 		pass.sendKeys("123");
-		Assert.assertFalse(driver.findElement(By.xpath("//li[@class='number-char completed']")).isDisplayed());
+		sleepInSecond(1);
+		Assert.assertTrue(driver.findElement(By.xpath("//li[@class='number-char completed']")).isDisplayed());
 		Assert.assertFalse(button.isEnabled());
 		sleepInSecond(1);
 
 		pass.clear();
 		pass.sendKeys("abc");
+		sleepInSecond(1);
 		Assert.assertTrue(driver.findElement(By.xpath("//li[@class='lowercase-char completed']")).isDisplayed());
 		Assert.assertFalse(button.isEnabled());
 		sleepInSecond(1);
 
 		pass.clear();
 		pass.sendKeys("ABC");
+		sleepInSecond(1);
 		Assert.assertTrue(driver.findElement(By.xpath("//li[@class='uppercase-char completed']")).isDisplayed());
 		Assert.assertFalse(button.isEnabled());
 		sleepInSecond(1);
 
 		pass.clear();
 		pass.sendKeys("@#$&");
+		sleepInSecond(1);
 		Assert.assertTrue(driver.findElement(By.xpath("//li[@class='special-char completed']")).isDisplayed());
 		Assert.assertFalse(button.isEnabled());
 		sleepInSecond(1);
 
 		pass.clear();
 		pass.sendKeys("1234567890");
+		sleepInSecond(1);
 		Assert.assertTrue(driver.findElement(By.xpath("//li[@class='8-char completed']")).isDisplayed());
 		Assert.assertFalse(button.isEnabled());
 		sleepInSecond(1);
 
 		pass.clear();
 		pass.sendKeys("1aA@12345");
+		sleepInSecond(1);
 		Assert.assertTrue(driver.findElement(By.xpath("//button[@id='create-account']")).isEnabled());
 		sleepInSecond(1);
 		
 		WebElement checkBox = driver.findElement(By.xpath("//input[@name='marketing_newsletter']"));
 		checkBox.click();
+		sleepInSecond(1);
 		Assert.assertTrue(checkBox.isSelected());
 		sleepInSecond(1);
 		
