@@ -10,7 +10,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -18,6 +20,7 @@ import org.testng.annotations.Test;
 
 public class Topic_07_TextBox_DropDown {
 	WebDriver driver;
+	WebDriverWait explicitWait;
 	String projectPath = System.getProperty("user.dir");
 
 	@BeforeClass
@@ -177,7 +180,7 @@ public class Topic_07_TextBox_DropDown {
 		year.selectByValue("2010");
 
 		Random rad = new Random();
-		String Email = "AutoTest"+ Integer.toString(rad.nextInt(9999)) +"@gmail.com";
+		String Email = "AutoTest" + Integer.toString(rad.nextInt(9999)) + "@gmail.com";
 		driver.findElement(By.id("Email")).sendKeys(Email);
 		driver.findElement(By.id("Password")).sendKeys("123abc");
 		driver.findElement(By.id("ConfirmPassword")).sendKeys("123abc");
@@ -188,12 +191,14 @@ public class Topic_07_TextBox_DropDown {
 
 		driver.findElement(By.xpath("//a[@class='ico-account']")).click();
 		sleepInSecond(1);
-		
+
 		Select monthCheck = new Select(driver.findElement(By.name("DateOfBirthMonth")));
-		Assert.assertEquals(driver.findElement(By.xpath("//select[@name='DateOfBirthDay']")).getAttribute("value"), "10");
+		Assert.assertEquals(driver.findElement(By.xpath("//select[@name='DateOfBirthDay']")).getAttribute("value"),
+				"10");
 		Assert.assertEquals(monthCheck.getFirstSelectedOption().getText(), "October");
-		Assert.assertEquals(driver.findElement(By.xpath("//select[@name='DateOfBirthYear']")).getAttribute("value"), "2010");
-		
+		Assert.assertEquals(driver.findElement(By.xpath("//select[@name='DateOfBirthYear']")).getAttribute("value"),
+				"2010");
+
 		sleepInSecond(1);
 	}
 
@@ -202,13 +207,32 @@ public class Topic_07_TextBox_DropDown {
 
 		driver.get("http://jqueryui.com/resources/demos/selectmenu/default.html");
 		
-		driver.findElement(By.xpath("//span[@id='number-button']")).click();
-		sleepInSecond(1);
+		SelectItemInCustomDropDown("//span[@id='number-button']", "//ul[@id='number-menu']/li/div", "19");
+		Assert.assertEquals(driver
+				.findElement(By.xpath("//span[@id='number-button']//span[@class='ui-selectmenu-text']")).getText(),
+				"19");
 	}
 
 	@AfterClass
 	public void afterClass() {
 		driver.quit();
+	}
+
+	public void SelectItemInCustomDropDown(String ButtonXpath, String LoadXpath, String Expected) {
+		driver.findElement(By.xpath(ButtonXpath)).click();
+		sleepInSecond(2);
+		/// Wait items load success
+		explicitWait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(LoadXpath)));
+		// Get all items
+		var Number = driver.findElements(By.xpath(LoadXpath));
+
+		for (WebElement webElement : Number) {
+			if (webElement.getText().equals(Expected)) {
+				webElement.click();
+				sleepInSecond(2);
+				break;
+			}
+		}
 	}
 
 	public void SetBrowser() {
@@ -227,6 +251,7 @@ public class Topic_07_TextBox_DropDown {
 			driver = new EdgeDriver();
 		}
 
+		explicitWait = new WebDriverWait(driver, 30);
 		driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 	}
 
