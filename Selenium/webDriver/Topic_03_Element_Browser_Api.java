@@ -121,21 +121,21 @@ public class Topic_03_Element_Browser_Api {
 		// A B C X Y Z -> data
 		
 		// tagname[@attribute='value'] = //input[@id='search']
-		String searchPlaceholderValue = searchTextbox.getAttribute("placeholder");
+		//String searchPlaceholderValue = searchTextbox.getAttribute("placeholder");
 		
 		// Test GUI: font/ size/ color/ position/ size/....
-		String loginButtonColor = searchTextbox.getCssValue("background");
+		//String loginButtonColor = searchTextbox.getCssValue("background");
 		// #3399cc
 		
 		// Build framework: Chụp hình nhúng vào Report
 		// searchTextbox.getScreenshotAs(arg0)
 		
-		WebElement searchTextbox_ = driver.findElement(By.cssSelector("#search"));
+		//WebElement searchTextbox_ = driver.findElement(By.cssSelector("#search"));
 		// String searchTextboxTagname = searchTextbox_.getTagName();
 		// searchTextboxTagname = input
 		
 		// Trả về text của 1 element: link/ button/ label/...
-		String searchText = searchTextbox.getText();
+		//String searchText = searchTextbox.getText();
 		
 		// assertTrue/ False
 		Assert.assertTrue(searchTextbox.isDisplayed());
