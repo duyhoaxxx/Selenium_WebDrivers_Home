@@ -203,15 +203,138 @@ public class Topic_07_TextBox_DropDown {
 	}
 
 	@Test
-	public void TC_04_Customer_DropDown_List() {
+	public void TC_04_Jquery_Customer_DropDown_List() {
 
 		driver.get("http://jqueryui.com/resources/demos/selectmenu/default.html");
-		
+
 		SelectItemInCustomDropDown("//span[@id='number-button']", "//ul[@id='number-menu']/li/div", "19");
 		Assert.assertEquals(driver
 				.findElement(By.xpath("//span[@id='number-button']//span[@class='ui-selectmenu-text']")).getText(),
 				"19");
+		SelectItemInCustomDropDown("//span[@id='number-button']", "//ul[@id='number-menu']/li/div", "4");
+		Assert.assertEquals(driver
+				.findElement(By.xpath("//span[@id='number-button']//span[@class='ui-selectmenu-text']")).getText(),
+				"4");
 	}
+
+	@Test
+	public void TC_04_VueJS_Customer_DropDown_List() {
+
+		driver.get("https://mikerodham.github.io/vue-dropdowns/");
+
+		driver.findElement(By.xpath("//li[@class='dropdown-toggle']")).click();
+		sleepInSecond(2);
+
+		explicitWait
+				.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//ul[@class='dropdown-menu']//a")));
+		// Get all items
+		var listNames = driver.findElements(By.xpath("//ul[@class='dropdown-menu']//a"));
+		for (WebElement webElement : listNames) {
+			System.out.println(webElement.getText());
+			if (webElement.getText().contains("Second Option")) {
+				webElement.click();
+				break;
+			}
+		}
+		sleepInSecond(2);
+		Assert.assertTrue(
+				driver.findElement(By.xpath("//li[@class='dropdown-toggle']")).getText().contains("Second Option"));
+
+		SelectItemInCustomDropDown("//li[@class='dropdown-toggle']", "//ul[@class='dropdown-menu']//a", "First Option");
+		Assert.assertEquals(driver.findElement(By.xpath("//li[@class='dropdown-toggle']")).getText().trim(),
+				"First Option");
+
+	}
+
+	@Test
+	public void TC_04_ReactJS_Customer_DropDown_List() {
+
+		driver.get("https://react.semantic-ui.com/maximize/dropdown-example-selection/");
+
+		driver.findElement(By.xpath("//div[@class='divider default text']")).click();
+		sleepInSecond(2);
+
+		explicitWait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(
+				By.xpath("//i[@class='dropdown icon']/following-sibling::div//div//span")));
+		// Get all items
+		var listNames = driver.findElements(By.xpath("//i[@class='dropdown icon']/following-sibling::div//div//span"));
+		for (WebElement webElement : listNames) {
+			// System.out.println(webElement.getText());
+			if (webElement.getText().equals("Matt")) {
+				webElement.click();
+				break;
+			}
+		}
+		Assert.assertEquals(driver.findElement(By.xpath("//div[@class='divider text']")).getText(), "Matt");
+
+		sleepInSecond(2);
+		SelectItemInCustomDropDown("//div[@class='divider text']",
+				"//i[@class='dropdown icon']/following-sibling::div//div//span", "Christian");
+		Assert.assertEquals(driver.findElement(By.xpath("//div[@class='divider text']")).getText(), "Christian");
+	}
+
+	@Test
+	public void TC_04_Angula_Customer_DropDown_List() {
+
+		driver.get(
+				"https://ej2.syncfusion.com/angular/demos/?_ga=2.262049992.437420821.1575083417-524628264.1575083417#/material/drop-down-list/data-binding");
+
+		var jsExecutor = (JavascriptExecutor) driver;
+		String Execu = "document.querySelector('#games input').value;";
+
+		// FireFox run Executor not add "return"
+		var Browser = System.getProperties().toString();
+		if (!Browser.contains("webdriver.gecko.driver"))
+			Execu = "return " + Execu;
+
+		SelectItemInCustomDropDown("//ejs-dropdownlist[@id='games']/span", "//ul[@id='games_options']/li", "Football");
+		Assert.assertEquals(
+				driver.findElement(By.xpath("//ejs-dropdownlist[@id='games']/span/input")).getAttribute("aria-label"),
+				jsExecutor.executeScript(Execu));
+
+		SelectItemInCustomDropDown("//ejs-dropdownlist[@id='games']/span", "//ul[@id='games_options']/li", "Tennis");
+		Assert.assertEquals(
+				driver.findElement(By.xpath("//ejs-dropdownlist[@id='games']/span/input")).getAttribute("aria-label"),
+				jsExecutor.executeScript(Execu));
+		sleepInSecond(2);
+	}
+
+	@Test
+	public void TC_05_Angula_Customer_DropDown_List() {
+
+		driver.get("https://tiemchungcovid19.gov.vn/portal/register-person");
+		driver.manage().window().maximize();
+		sleepInSecond(2);
+
+		SelectItemInCustomDropDown("//ng-select[@bindvalue='provinceCode']//span[@class='ng-arrow-wrapper']",
+				"//div[contains(@class,'ng-option ng-star-inserted')]", "Thành phố Hà Nội");
+
+		SelectItemInCustomDropDown("//ng-select[@bindvalue='districtCode']//span[@class='ng-arrow-wrapper']",
+				"//div[contains(@class,'ng-option ng-star-inserted')]", "Quận Cầu Giấy");
+
+		SelectItemInCustomDropDown("//ng-select[@bindvalue='wardCode']//span[@class='ng-arrow-wrapper']",
+				"//div[contains(@class,'ng-option ng-star-inserted')]", "Phường Dịch Vọng");
+		sleepInSecond(2);
+		
+		Assert.assertEquals(
+				driver.findElement(By.xpath(
+						"//ng-select[@bindvalue='provinceCode']//span[@class='ng-value-label ng-star-inserted']")).getText(),
+				"Thành phố Hà Nội");
+		Assert.assertEquals(
+				driver.findElement(By.xpath(
+						"//ng-select[@bindvalue='districtCode']//span[@class='ng-value-label ng-star-inserted']")).getText(),
+				"Quận Cầu Giấy");
+		Assert.assertEquals(
+				driver.findElement(By.xpath(
+						"//ng-select[@bindvalue='wardCode']//span[@class='ng-value-label ng-star-inserted']")).getText(),
+				"Phường Dịch Vọng");
+	}
+	
+	@Test
+	public void TC_05_Editable_Customer_DropDown_List() {
+		
+	}
+	
 
 	@AfterClass
 	public void afterClass() {
@@ -227,7 +350,7 @@ public class Topic_07_TextBox_DropDown {
 		var Number = driver.findElements(By.xpath(LoadXpath));
 
 		for (WebElement webElement : Number) {
-			if (webElement.getText().equals(Expected)) {
+			if (webElement.getText().trim().equals(Expected)) {
 				webElement.click();
 				sleepInSecond(2);
 				break;
@@ -236,7 +359,7 @@ public class Topic_07_TextBox_DropDown {
 	}
 
 	public void SetBrowser() {
-		int Set_Browser = 0;
+		int Set_Browser = 1;
 		if (Set_Browser % 3 == 0) {
 			// Chorme
 			System.setProperty("webdriver.chrome.driver", projectPath + "\\browserDrivers\\chromedriver.exe");
