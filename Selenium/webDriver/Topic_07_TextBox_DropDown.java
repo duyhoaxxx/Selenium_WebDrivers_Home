@@ -21,6 +21,7 @@ import org.testng.annotations.Test;
 public class Topic_07_TextBox_DropDown {
 	WebDriver driver;
 	WebDriverWait explicitWait;
+	JavascriptExecutor jsExecutor;
 	String projectPath = System.getProperty("user.dir");
 
 	@BeforeClass
@@ -278,8 +279,6 @@ public class Topic_07_TextBox_DropDown {
 
 		driver.get(
 				"https://ej2.syncfusion.com/angular/demos/?_ga=2.262049992.437420821.1575083417-524628264.1575083417#/material/drop-down-list/data-binding");
-
-		var jsExecutor = (JavascriptExecutor) driver;
 		String Execu = "document.querySelector('#games input').value;";
 
 		// FireFox run Executor not add "return"
@@ -307,34 +306,70 @@ public class Topic_07_TextBox_DropDown {
 		sleepInSecond(2);
 
 		SelectItemInCustomDropDown("//ng-select[@bindvalue='provinceCode']//span[@class='ng-arrow-wrapper']",
-				"//div[contains(@class,'ng-option ng-star-inserted')]", "Thành phố Hà Nội");
+				"//div[contains(@class,'ng-option')]", "Thành phố Hà Nội");
 
 		SelectItemInCustomDropDown("//ng-select[@bindvalue='districtCode']//span[@class='ng-arrow-wrapper']",
-				"//div[contains(@class,'ng-option ng-star-inserted')]", "Quận Cầu Giấy");
+				"//div[contains(@class,'ng-option')]", "Quận Cầu Giấy");
 
 		SelectItemInCustomDropDown("//ng-select[@bindvalue='wardCode']//span[@class='ng-arrow-wrapper']",
-				"//div[contains(@class,'ng-option ng-star-inserted')]", "Phường Dịch Vọng");
+				"//div[contains(@class,'ng-option')]", "Phường Dịch Vọng");
 		sleepInSecond(2);
-		
-		Assert.assertEquals(
-				driver.findElement(By.xpath(
-						"//ng-select[@bindvalue='provinceCode']//span[@class='ng-value-label ng-star-inserted']")).getText(),
-				"Thành phố Hà Nội");
-		Assert.assertEquals(
-				driver.findElement(By.xpath(
-						"//ng-select[@bindvalue='districtCode']//span[@class='ng-value-label ng-star-inserted']")).getText(),
-				"Quận Cầu Giấy");
-		Assert.assertEquals(
-				driver.findElement(By.xpath(
-						"//ng-select[@bindvalue='wardCode']//span[@class='ng-value-label ng-star-inserted']")).getText(),
-				"Phường Dịch Vọng");
+
+		Assert.assertEquals(driver
+				.findElement(By.xpath(
+						"//ng-select[@bindvalue='provinceCode']//span[@class='ng-value-label ng-star-inserted']"))
+				.getText(), "Thành phố Hà Nội");
+		Assert.assertEquals(driver
+				.findElement(By.xpath(
+						"//ng-select[@bindvalue='districtCode']//span[@class='ng-value-label ng-star-inserted']"))
+				.getText(), "Quận Cầu Giấy");
+		Assert.assertEquals(driver
+				.findElement(
+						By.xpath("//ng-select[@bindvalue='wardCode']//span[@class='ng-value-label ng-star-inserted']"))
+				.getText(), "Phường Dịch Vọng");
 	}
-	
+
 	@Test
 	public void TC_05_Editable_Customer_DropDown_List() {
-		
+		driver.get("https://tiemchungcovid19.gov.vn/portal/register-person");
+		// driver.manage().window().maximize();
+		sleepInSecond(2);
+
+		SelectItemInEditDropDown("//ng-select[@bindvalue='provinceCode']//div[@class='ng-input']/input",
+				"//div[contains(@class,'ng-option')]", "Thành phố Hà Nội");
+
+		SelectItemInEditDropDown("//ng-select[@bindvalue='districtCode']//div[@class='ng-input']/input",
+				"//div[contains(@class,'ng-option')]", "Quận Cầu Giấy");
+
+		SelectItemInEditDropDown("//ng-select[@bindvalue='wardCode']//div[@class='ng-input']/input",
+				"//div[contains(@class,'ng-option')]", "Phường Dịch Vọng");
+		sleepInSecond(2);
+
+		Assert.assertEquals(driver
+				.findElement(By.xpath(
+						"//ng-select[@bindvalue='provinceCode']//span[@class='ng-value-label ng-star-inserted']"))
+				.getText(), "Thành phố Hà Nội");
+		Assert.assertEquals(driver
+				.findElement(By.xpath(
+						"//ng-select[@bindvalue='districtCode']//span[@class='ng-value-label ng-star-inserted']"))
+				.getText(), "Quận Cầu Giấy");
+		Assert.assertEquals(driver
+				.findElement(
+						By.xpath("//ng-select[@bindvalue='wardCode']//span[@class='ng-value-label ng-star-inserted']"))
+				.getText(), "Phường Dịch Vọng");
 	}
-	
+
+	@Test
+	public void TC_05_Editable_Customer_DropDown_List2() {
+		driver.get("http://indrimuska.github.io/jquery-editable-select/");
+		sleepInSecond(2);
+
+		SelectItemInEditDropDown("//div[@id='default-place']/input",
+				"//div[@data-effects='default']//ul//li[contains(@class,'visible')]", "Audi");
+
+		Assert.assertEquals(driver.findElement(By.xpath("//div[@data-effects='default']/input")).getAttribute("value"),
+				"Audi");
+	}
 
 	@AfterClass
 	public void afterClass() {
@@ -343,6 +378,32 @@ public class Topic_07_TextBox_DropDown {
 
 	public void SelectItemInCustomDropDown(String ButtonXpath, String LoadXpath, String Expected) {
 		driver.findElement(By.xpath(ButtonXpath)).click();
+		sleepInSecond(2);
+		/// Wait items load success
+		explicitWait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(LoadXpath)));
+		// Get all items
+		var Number = driver.findElements(By.xpath(LoadXpath));
+		for (WebElement webElement : Number) {
+			if (webElement.getText().trim().equals(Expected)) {
+				if (webElement.isDisplayed()) {
+					webElement.click();
+				} else {
+					// Scroll to element
+					jsExecutor.executeScript("arguments[0].scrollIntoView(true);", webElement);
+					sleepInSecond(1);
+					jsExecutor.executeScript("arguments[0].click();", webElement);
+				}
+				sleepInSecond(1);
+				break;
+			}
+		}
+	}
+
+	public void SelectItemInEditDropDown(String ButtonXpath, String LoadXpath, String Expected) {
+
+		driver.findElement(By.xpath(ButtonXpath)).clear();
+		sleepInSecond(1);
+		driver.findElement(By.xpath(ButtonXpath)).sendKeys(Expected);
 		sleepInSecond(2);
 		/// Wait items load success
 		explicitWait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(LoadXpath)));
@@ -359,7 +420,7 @@ public class Topic_07_TextBox_DropDown {
 	}
 
 	public void SetBrowser() {
-		int Set_Browser = 1;
+		int Set_Browser = 0;
 		if (Set_Browser % 3 == 0) {
 			// Chorme
 			System.setProperty("webdriver.chrome.driver", projectPath + "\\browserDrivers\\chromedriver.exe");
@@ -374,6 +435,7 @@ public class Topic_07_TextBox_DropDown {
 			driver = new EdgeDriver();
 		}
 
+		jsExecutor = (JavascriptExecutor) driver;
 		explicitWait = new WebDriverWait(driver, 30);
 		driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 	}
