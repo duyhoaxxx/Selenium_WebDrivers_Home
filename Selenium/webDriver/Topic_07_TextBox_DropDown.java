@@ -1,5 +1,6 @@
 package webDriver;
 
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -371,6 +372,44 @@ public class Topic_07_TextBox_DropDown {
 				"Audi");
 	}
 
+	@Test
+	public void TC_06_Multiple_Customer_DropDown_List() {
+		driver.get("http://multiple-select.wenzhixin.net.cn/templates/template.html?v=189&url=basic.html");
+		sleepInSecond(2);
+
+		String[] Months3 = { "May", "June", "July" };
+		SelectMultiDropDown("//label[contains(.,'Group Select')]/parent::div/preceding-sibling::div//button",
+				"//label[contains(.,'Group Select')]/parent::div/preceding-sibling::div//li//span", Months3);
+
+		String XPath = "//label[contains(.,'Group Select')]/parent::div/preceding-sibling::div//button//span";
+		Assert.assertTrue(driver.findElement(By.xpath(XPath)).getText().contains(Months3[0]));
+		Assert.assertTrue(driver.findElement(By.xpath(XPath)).getText().contains(Months3[1]));
+		Assert.assertTrue(driver.findElement(By.xpath(XPath)).getText().contains(Months3[2]));
+		//
+		driver.navigate().refresh();
+		sleepInSecond(2);
+		String[] Months5 = { "May", "June", "July", "December", "September" };
+		SelectMultiDropDown("//label[contains(.,'Group Select')]/parent::div/preceding-sibling::div//button",
+				"//label[contains(.,'Group Select')]/parent::div/preceding-sibling::div//li//span", Months5);
+		Assert.assertTrue(driver.findElement(By.xpath(XPath)).getText().contains("5 of 12 selected"));
+		//
+		driver.navigate().refresh();
+		sleepInSecond(2);
+		String[] AllMonths = { "May", "June", "July", "December", "September", "January", "February", "March", "April",
+				"August", "October", "November" };
+		SelectMultiDropDown("//label[contains(.,'Group Select')]/parent::div/preceding-sibling::div//button",
+				"//label[contains(.,'Group Select')]/parent::div/preceding-sibling::div//li//span", AllMonths);
+		Assert.assertTrue(driver.findElement(By.xpath(XPath)).getText().contains("All selected"));
+		//
+		driver.navigate().refresh();
+		sleepInSecond(2);
+		String[] AllMonthString = { "[Select all]"};
+		SelectMultiDropDown("//label[contains(.,'Group Select')]/parent::div/preceding-sibling::div//button",
+				"//label[contains(.,'Group Select')]/parent::div/preceding-sibling::div//li//span", AllMonthString);
+		Assert.assertTrue(driver.findElement(By.xpath(XPath)).getText().contains("All selected"));
+
+	}
+
 	@AfterClass
 	public void afterClass() {
 		driver.quit();
@@ -382,8 +421,8 @@ public class Topic_07_TextBox_DropDown {
 		/// Wait items load success
 		explicitWait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(LoadXpath)));
 		// Get all items
-		var Number = driver.findElements(By.xpath(LoadXpath));
-		for (WebElement webElement : Number) {
+		var ListWebElements = driver.findElements(By.xpath(LoadXpath));
+		for (WebElement webElement : ListWebElements) {
 			if (webElement.getText().trim().equals(Expected)) {
 				if (webElement.isDisplayed()) {
 					webElement.click();
@@ -408,15 +447,35 @@ public class Topic_07_TextBox_DropDown {
 		/// Wait items load success
 		explicitWait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(LoadXpath)));
 		// Get all items
-		var Number = driver.findElements(By.xpath(LoadXpath));
+		var ListWebElements = driver.findElements(By.xpath(LoadXpath));
 
-		for (WebElement webElement : Number) {
+		for (WebElement webElement : ListWebElements) {
 			if (webElement.getText().trim().equals(Expected)) {
 				webElement.click();
 				sleepInSecond(2);
 				break;
 			}
 		}
+	}
+
+	public void SelectMultiDropDown(String ButtonXpath, String LoadXpath, String[] Expected) {
+		driver.findElement(By.xpath(ButtonXpath)).click();
+		sleepInSecond(2);
+		/// Wait items load success
+		explicitWait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(LoadXpath)));
+		// Get all items
+		var ListWebElements = driver.findElements(By.xpath(LoadXpath));
+
+		for (WebElement webElement : ListWebElements) {
+			for (String Month : Expected) {
+				if (webElement.getText().trim().equals(Month)) {
+					webElement.click();
+					sleepInSecond(2);
+				}
+			}
+		}
+		driver.findElement(By.xpath(ButtonXpath)).click();
+		sleepInSecond(2);
 	}
 
 	public void SetBrowser() {
