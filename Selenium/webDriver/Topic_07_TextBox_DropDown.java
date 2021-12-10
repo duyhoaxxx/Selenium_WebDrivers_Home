@@ -1,6 +1,5 @@
 package webDriver;
 
-import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -232,7 +231,6 @@ public class Topic_07_TextBox_DropDown {
 		// Get all items
 		var listNames = driver.findElements(By.xpath("//ul[@class='dropdown-menu']//a"));
 		for (WebElement webElement : listNames) {
-			System.out.println(webElement.getText());
 			if (webElement.getText().contains("Second Option")) {
 				webElement.click();
 				break;
