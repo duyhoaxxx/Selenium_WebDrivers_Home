@@ -2,6 +2,7 @@ package webDriver;
 
 import java.util.concurrent.TimeUnit;
 
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -10,6 +11,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.Color;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -19,10 +22,14 @@ public class Topic_09_Button_RadioButton_CheckBox_Alert {
 	WebDriver driver;
 	String projectPath = System.getProperty("user.dir");
 	JavascriptExecutor jsExecutor;
+	Alert alert;
+	WebDriverWait explicitWait;
 
 	@BeforeClass
 	public void beforeClass() {
 		SetBrowser();
+		jsExecutor = (JavascriptExecutor) driver;
+		explicitWait = new WebDriverWait(driver, 30);
 	}
 
 	@Test
@@ -91,8 +98,8 @@ public class Topic_09_Button_RadioButton_CheckBox_Alert {
 		sleepInSecond(2);
 		Assert.assertTrue(driver.findElement(By.xpath("//input[@id='mat-radio-4-input']")).isSelected());
 
-		
-		jsExecutor.executeScript("arguments[0].click()", driver.findElement(By.xpath("//input[@id='mat-radio-2-input']")));
+		jsExecutor.executeScript("arguments[0].click()",
+				driver.findElement(By.xpath("//input[@id='mat-radio-2-input']")));
 		sleepInSecond(2);
 		Assert.assertTrue(driver.findElement(By.xpath("//input[@id='mat-radio-2-input']")).isSelected());
 		//
@@ -113,46 +120,94 @@ public class Topic_09_Button_RadioButton_CheckBox_Alert {
 
 	@Test
 	public void TC_04_Custom_CheckBox() {
-		driver.get("https://docs.google.com/forms/d/e/1FAIpQLSfiypnd69zhuDkjKgqvpID9kwO29UCzeCVrGGtbNPZXQok0jA/viewform");
+		driver.get(
+				"https://docs.google.com/forms/d/e/1FAIpQLSfiypnd69zhuDkjKgqvpID9kwO29UCzeCVrGGtbNPZXQok0jA/viewform");
 		sleepInSecond(2);
-		if(webElement("//div[@id='i17']").getAttribute("aria-checked")!="true") {
+		if (webElement("//div[@id='i17']").getAttribute("aria-checked") != "true") {
 			webElement("//div[@id='i17']").click();
 		}
 		sleepInSecond(2);
-		Assert.assertEquals(webElement("//div[@id='i17']").getAttribute("aria-checked"),"true");
+		Assert.assertEquals(webElement("//div[@id='i17']").getAttribute("aria-checked"), "true");
 		sleepInSecond(2);
 		////
 		var Checkbox = driver.findElements(By.xpath("//div[@role='checkbox']"));
 		for (WebElement temp : Checkbox) {
 			temp.click();
 			sleepInSecond(1);
-			Assert.assertEquals(temp.getAttribute("aria-checked"),"true");
+			Assert.assertEquals(temp.getAttribute("aria-checked"), "true");
 		}
 
 	}
 
 	@Test
-	public void TC_05() {
+	public void TC_05_Accept_Alert() {
+		driver.get("https://automationfc.github.io/basic-form/index.html");
+		sleepInSecond(2);
+		driver.findElement(By.xpath("//button[text()='Click for JS Alert']")).click();
+		sleepInSecond(1);
 
+		// Switch qua Alert
+		// alert = driver.switchTo().alert();
+
+		// Wait trc roi moi Switch qua Alert
+		alert = explicitWait.until(ExpectedConditions.alertIsPresent());
+		Assert.assertEquals(alert.getText(), "I am a JS Alert");
+		alert.accept();
+		Assert.assertEquals(driver.findElement(By.id("result")).getText(), "You clicked an alert successfully");
 	}
 
 	@Test
-	public void TC_06() {
+	public void TC_06_Confirm_Alert() {
+		driver.get("https://automationfc.github.io/basic-form/index.html");
+		sleepInSecond(2);
+		driver.findElement(By.xpath("//button[text()='Click for JS Confirm']")).click();
 
+		// Wait trc roi moi Switch qua Alert
+		alert = explicitWait.until(ExpectedConditions.alertIsPresent());
+		Assert.assertEquals(alert.getText(), "I am a JS Confirm");
+		alert.accept();
+		Assert.assertEquals(driver.findElement(By.id("result")).getText(), "You clicked: Ok");
+		/////
+		driver.findElement(By.xpath("//button[text()='Click for JS Confirm']")).click();
+
+		// Wait trc roi moi Switch qua Alert
+		alert = explicitWait.until(ExpectedConditions.alertIsPresent());
+		Assert.assertEquals(alert.getText(), "I am a JS Confirm");
+		alert.dismiss();
+		Assert.assertEquals(driver.findElement(By.id("result")).getText(), "You clicked: Cancel");
 	}
 
 	@Test
-	public void TC_07() {
-
+	public void TC_07_Prompt_Alert() {
+		driver.get("https://automationfc.github.io/basic-form/index.html");
+		sleepInSecond(2);
+		driver.findElement(By.xpath("//button[text()='Click for JS Prompt']")).click();
+		
+		// Wait trc roi moi Switch qua Alert
+		alert = explicitWait.until(ExpectedConditions.alertIsPresent());
+		Assert.assertEquals(alert.getText(), "I am a JS prompt");
+		String text = "Kane Auto Test";
+		alert.sendKeys(text);
+		sleepInSecond(2);
+		alert.accept();
+		Assert.assertEquals(driver.findElement(By.id("result")).getText(), "You entered: " + text);
 	}
 
 	@Test
-	public void TC_08() {
-
+	public void TC_08_Authentication_Alert_ByPASSLink() {
+		String username = "admin";
+		String pass = "admin";
+		String url = "http://the-internet.herokuapp.com/basic_auth";
+		// login Alert: http://username:pass@url
+		String[] UrlHandle = url.split("//");
+		url = UrlHandle[0]+"//"+username+":"+pass+"@"+UrlHandle[1];
+		driver.get(url);
+		sleepInSecond(2);
+		Assert.assertTrue(driver.findElement(By.xpath("//p[contains(text(),'Congratulations!')]")).isDisplayed());
 	}
 
 	@Test
-	public void TC_09() {
+	public void TC_09_Authentication_Alert_AutoIT() {
 
 	}
 
@@ -161,10 +216,10 @@ public class Topic_09_Button_RadioButton_CheckBox_Alert {
 		driver.quit();
 	}
 
-	public WebElement webElement (String by) {
+	public WebElement webElement(String by) {
 		return driver.findElement(By.xpath(by));
 	}
-	
+
 	public void SetBrowser() {
 		int Set_Browser = 0;
 		if (Set_Browser % 3 == 0) {
@@ -181,7 +236,6 @@ public class Topic_09_Button_RadioButton_CheckBox_Alert {
 			driver = new EdgeDriver();
 		}
 
-		jsExecutor = (JavascriptExecutor) driver;
 		driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 	}
 
