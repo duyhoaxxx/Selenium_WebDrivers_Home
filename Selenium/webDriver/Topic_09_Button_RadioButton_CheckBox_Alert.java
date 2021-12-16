@@ -1,5 +1,6 @@
 package webDriver;
 
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.Alert;
@@ -24,6 +25,8 @@ public class Topic_09_Button_RadioButton_CheckBox_Alert {
 	JavascriptExecutor jsExecutor;
 	Alert alert;
 	WebDriverWait explicitWait;
+	String authenChorme = projectPath + "\\AutoIT\\authen_chorme.exe";
+	String authenFirefox = projectPath + "\\AutoIT\\authen_firefox.exe";
 
 	@BeforeClass
 	public void beforeClass() {
@@ -182,7 +185,7 @@ public class Topic_09_Button_RadioButton_CheckBox_Alert {
 		driver.get("https://automationfc.github.io/basic-form/index.html");
 		sleepInSecond(2);
 		driver.findElement(By.xpath("//button[text()='Click for JS Prompt']")).click();
-		
+
 		// Wait trc roi moi Switch qua Alert
 		alert = explicitWait.until(ExpectedConditions.alertIsPresent());
 		Assert.assertEquals(alert.getText(), "I am a JS prompt");
@@ -200,15 +203,32 @@ public class Topic_09_Button_RadioButton_CheckBox_Alert {
 		String url = "http://the-internet.herokuapp.com/basic_auth";
 		// login Alert: http://username:pass@url
 		String[] UrlHandle = url.split("//");
-		url = UrlHandle[0]+"//"+username+":"+pass+"@"+UrlHandle[1];
+		url = UrlHandle[0] + "//" + username + ":" + pass + "@" + UrlHandle[1];
 		driver.get(url);
 		sleepInSecond(2);
 		Assert.assertTrue(driver.findElement(By.xpath("//p[contains(text(),'Congratulations!')]")).isDisplayed());
 	}
 
 	@Test
-	public void TC_09_Authentication_Alert_AutoIT() {
+	public void TC_09_Authentication_Alert_AutoIT() throws IOException {
+		String username = "admin";
+		String pass = "admin";
+		String url = "http://the-internet.herokuapp.com/basic_auth";
+		// login Alert: http://username:pass@url
+		// String[] UrlHandle = url.split("//");
+		// url = UrlHandle[0] + "//" + username + ":" + pass + "@" + UrlHandle[1];
 
+//		if (driver.toString().contains("firefox")) {
+//			Runtime.getRuntime().exec(new String[] { authenFirefox, username, pass });
+//		} else if (driver.toString().contains("chorme")) {
+//			Runtime.getRuntime().exec(new String[] { authenChorme, username, pass });
+//		} else
+//			throw new RuntimeException("Browser is not supported !!!");
+
+		Runtime.getRuntime().exec(new String[] { authenChorme, username, pass });
+		driver.get(url);
+		sleepInSecond(5);
+		Assert.assertTrue(driver.findElement(By.xpath("//p[contains(text(),'Congratulations!')]")).isDisplayed());
 	}
 
 	@AfterClass
