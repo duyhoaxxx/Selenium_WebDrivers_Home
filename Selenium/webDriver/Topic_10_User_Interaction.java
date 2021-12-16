@@ -45,7 +45,44 @@ public class Topic_10_User_Interaction {
 	}
 
 	@Test
-	public void TC_03() {
+	public void TC_03_Hover() {
+		driver.get("https://www.fahasa.com/");
+		driver.manage().window().maximize();
+		sleepInSecond(2);
+		By xpath = By.xpath("//div[@class='header-breadcrumbs  background-menu-homepage  ']//a[@title='Đồ Chơi']");
+		By xpathVerify = By.xpath("//div[@class='header-breadcrumbs  background-menu-homepage  ']//span[text()='ĐỒ CHƠI KHÁC']");
+		action.moveToElement(driver.findElement(xpath)).perform();
+		sleepInSecond(2);
+		Assert.assertTrue(driver.findElement(xpathVerify).isDisplayed());
+		
+	}
+	@Test
+	public void TC_04_ClickAndHold() {
+		driver.get("https://automationfc.github.io/jquery-selectable/");
+		var Numbers = driver.findElements(By.xpath("//ol//li"));
+		action.clickAndHold(Numbers.get(0)).moveToElement(Numbers.get(7)).release().perform();
+		sleepInSecond(2);
+		var Results = driver.findElements(By.xpath("//ol//li[contains(@class,'selected')]"));
+		Assert.assertEquals(Results.size(),8);
+	}
+	@Test
+	public void TC_05() {
+		
+	}
+	@Test
+	public void TC_06() {
+		
+	}
+	@Test
+	public void TC_07() {
+		
+	}
+	@Test
+	public void TC_08() {
+		
+	}
+	@Test
+	public void TC_09() {
 
 	}
 
