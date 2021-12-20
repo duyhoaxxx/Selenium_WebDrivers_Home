@@ -2,10 +2,12 @@ package webDriver;
 
 import java.util.concurrent.TimeUnit;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -20,12 +22,27 @@ public class Topic_11_Popup_Iframe_Windows {
 	}
 
 	@Test
-	public void TC_01() {
-
+	public void TC_01_Fixed_Popup() {
+		driver.get("https://ngoaingu24h.vn/");
+		var ByLogin = By.xpath("//div[@id='modal-login-v1']");
+		Assert.assertFalse(driver.findElement(ByLogin).isDisplayed());
+		driver.findElement(By.xpath("//button[@class='login_ icon-before']")).click();
+		sleepInSecond(1);
+		Assert.assertTrue(driver.findElement(ByLogin).isDisplayed());
+		driver.findElement(By.xpath("//input[@id='account-input']")).sendKeys("automation");
+		driver.findElement(By.xpath("//input[@id='password-input']")).sendKeys("automation");
+		driver.findElement(By.xpath("//button[@data-text='Đăng nhập']")).click();
+		sleepInSecond(1);
+		Assert.assertEquals(driver
+				.findElement(By.xpath("//div[@id='modal-login-v1']//div[@class='row error-login-panel']")).getText(),
+				"Tài khoản không tồn tại!");
+		driver.findElement(By.xpath("//div[@id='modal-login-v1']//button[@class='close']")).click();
+		Assert.assertFalse(driver.findElement(ByLogin).isDisplayed());
 	}
 
 	@Test
-	public void TC_02() {
+	public void TC_02_Random_Popup() {
+		driver.get("https://blog.testproject.io/");
 
 	}
 
@@ -34,13 +51,53 @@ public class Topic_11_Popup_Iframe_Windows {
 
 	}
 
+	@Test
+	public void TC_04() {
+
+	}
+
+	@Test
+	public void TC_05() {
+
+	}
+
+	@Test
+	public void TC_06() {
+
+	}
+
+	@Test
+	public void TC_07() {
+
+	}
+
+	@Test
+	public void TC_08() {
+
+	}
+
+	@Test
+	public void TC_09() {
+
+	}
+
+	@Test
+	public void TC_10() {
+
+	}
+
+	@Test
+	public void TC_11() {
+
+	}
+
 	@AfterClass
 	public void afterClass() {
 		driver.quit();
 	}
-	
+
 	public void SetBrowser() {
-		int Set_Browser = 0;
+		int Set_Browser = 1;
 		if (Set_Browser % 3 == 0) {
 			// Chorme
 			System.setProperty("webdriver.chrome.driver", projectPath + "\\browserDrivers\\chromedriver.exe");

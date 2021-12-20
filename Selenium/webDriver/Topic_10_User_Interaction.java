@@ -39,7 +39,7 @@ public class Topic_10_User_Interaction {
 	WebDriverWait explicitWait;
 	JavascriptExecutor jsExcutor;
 	String projectPath = System.getProperty("user.dir");
-	String dragDropHelperPath = projectPath+"\\DragDropHTML5\\drag_and_drop_helper.js";
+	String dragDropHelperPath = projectPath + "\\DragDropHTML5\\drag_and_drop_helper.js";
 
 	@BeforeClass
 	public void beforeClass() {
@@ -151,14 +151,15 @@ public class Topic_10_User_Interaction {
 	}
 
 	@Test
-	public void TC_09_Drag_And_Drop_Element_HTML5() throws IOException  {
+	public void TC_09_Drag_And_Drop_Element_HTML5() throws IOException {
 		driver.get("https://automationfc.github.io/drag-drop-html5/");
 		sleepInSecond(2);
 		String collumACss = "#column-a";
 		String collumBCss = "#column-b";
 		String dragDropHelperContent = getContentFile(dragDropHelperPath);
-		
-		dragDropHelperContent = dragDropHelperContent + "$(\"" + collumACss + "\").simulateDragDrop({ dropTarget: \"" + collumBCss + "\"});";
+
+		dragDropHelperContent = dragDropHelperContent + "$(\"" + collumACss + "\").simulateDragDrop({ dropTarget: \""
+				+ collumBCss + "\"});";
 		// A=>B
 		jsExcutor.executeScript(dragDropHelperContent);
 		sleepInSecond(2);
@@ -177,18 +178,18 @@ public class Topic_10_User_Interaction {
 		sleepInSecond(2);
 		String collumAXpath = "//div[@id='column-a']";
 		String collumBXpath = "//div[@id='column-b']";
-		
-		dragAndDropHTML5ByXpath(collumAXpath,collumBXpath);
+
+		dragAndDropHTML5ByXpath(collumAXpath, collumBXpath);
 		sleepInSecond(2);
 		Assert.assertEquals(driver.findElement(By.cssSelector("#column-a>header")).getText(), "B");
 		Assert.assertEquals(driver.findElement(By.cssSelector("#column-b>header")).getText(), "A");
 	}
-	
+
 	@AfterClass
 	public void afterClass() {
 		driver.quit();
 	}
-	
+
 	public void dragAndDropHTML5ByXpath(String sourceLocator, String targetLocator) throws AWTException {
 
 		WebElement source = driver.findElement(By.xpath(sourceLocator));
@@ -228,7 +229,8 @@ public class Topic_10_User_Interaction {
 		// Click and drag
 		robot.mousePress(InputEvent.BUTTON1_MASK);
 		robot.mousePress(InputEvent.BUTTON1_MASK);
-		robot.mouseMove(((sourceLocation.x - targetLocation.x) / 2) + targetLocation.x, ((sourceLocation.y - targetLocation.y) / 2) + targetLocation.y);
+		robot.mouseMove(((sourceLocation.x - targetLocation.x) / 2) + targetLocation.x,
+				((sourceLocation.y - targetLocation.y) / 2) + targetLocation.y);
 
 		// Move to final position
 		robot.mouseMove(targetLocation.x, targetLocation.y);
@@ -236,7 +238,7 @@ public class Topic_10_User_Interaction {
 		// Drop
 		robot.mouseRelease(InputEvent.BUTTON1_MASK);
 	}
-	
+
 	public String getContentFile(String filePath) throws IOException {
 		Charset cs = Charset.forName("UTF-8");
 		FileInputStream stream = new FileInputStream(filePath);
