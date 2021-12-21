@@ -44,30 +44,35 @@ public class Topic_11_Popup_Iframe_Windows {
 	@Test
 	public void TC_02_Random_Popup() {
 		driver.get("https://blog.testproject.io/");
-		sleepInSecond(15);
+		sleepInSecond(30);
 		if (driver.findElement(By.id("close-mailch")).isDisplayed())
 			driver.findElement(By.id("close-mailch")).click();
 
 		driver.findElement(By.xpath("//section[@id='search-2']//input[@type='search']")).sendKeys("Selenium");
 		driver.findElement(By.xpath("//section[@id='search-2']//span[@class='glass']")).click();
-		sleepInSecond(2);
+		sleepInSecond(3);
 		
 		var ListResults = driver.findElements(By.xpath("//div[@class='post-on-archive-page']//h3/a"));
 		for (WebElement Result : ListResults) {
 			Assert.assertTrue(Result.getText().contains("Selenium"));
 			System.out.println(Result.getText());
 		}
-
 	}
 
 	@Test
 	public void TC_03_Random_Popup() {
 		driver.get("https://vnk.edu.vn/");
-		sleepInSecond(15);
+		sleepInSecond(30);
+		var ClosePopup = By.xpath("//div[@class='thrv_wrapper thrv_icon tcb-icon-display tve_evt_manager_listen tve_et_click tve_ea_thrive_leads_form_close']");
+		if(driver.findElement(ClosePopup).isDisplayed()) {
+			Assert.assertTrue(driver.findElement(By.xpath("//div[@class='tcb-flex-col']")).isDisplayed());
+			driver.findElement(ClosePopup).click();
+		}
+		Assert.assertFalse(driver.findElement(By.xpath("//div[@class='tcb-flex-col']")).isDisplayed());
 	}
 
 	@Test
-	public void TC_04() {
+	public void TC_04_Random_NotInDOM() {
 
 	}
 
