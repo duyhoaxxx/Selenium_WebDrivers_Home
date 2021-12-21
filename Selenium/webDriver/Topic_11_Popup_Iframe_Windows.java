@@ -4,6 +4,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -43,12 +44,26 @@ public class Topic_11_Popup_Iframe_Windows {
 	@Test
 	public void TC_02_Random_Popup() {
 		driver.get("https://blog.testproject.io/");
+		sleepInSecond(15);
+		if (driver.findElement(By.id("close-mailch")).isDisplayed())
+			driver.findElement(By.id("close-mailch")).click();
+
+		driver.findElement(By.xpath("//section[@id='search-2']//input[@type='search']")).sendKeys("Selenium");
+		driver.findElement(By.xpath("//section[@id='search-2']//span[@class='glass']")).click();
+		sleepInSecond(2);
+		
+		var ListResults = driver.findElements(By.xpath("//div[@class='post-on-archive-page']//h3/a"));
+		for (WebElement Result : ListResults) {
+			Assert.assertTrue(Result.getText().contains("Selenium"));
+			System.out.println(Result.getText());
+		}
 
 	}
 
 	@Test
-	public void TC_03() {
-
+	public void TC_03_Random_Popup() {
+		driver.get("https://vnk.edu.vn/");
+		sleepInSecond(15);
 	}
 
 	@Test
