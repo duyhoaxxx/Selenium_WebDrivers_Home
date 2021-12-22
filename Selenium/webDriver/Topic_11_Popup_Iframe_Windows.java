@@ -66,8 +66,9 @@ public class Topic_11_Popup_Iframe_Windows {
 	public void TC_03_Random_Popup() {
 		driver.get("https://vnk.edu.vn/");
 		sleepInSecond(20);
-		var ClosePopup = By.xpath("//div[@class='thrv_wrapper thrv_icon tcb-icon-display tve_evt_manager_listen tve_et_click tve_ea_thrive_leads_form_close']");
-		if(driver.findElement(ClosePopup).isDisplayed()) {
+		var ClosePopup = By.xpath(
+				"//div[@class='thrv_wrapper thrv_icon tcb-icon-display tve_evt_manager_listen tve_et_click tve_ea_thrive_leads_form_close']");
+		if (driver.findElement(ClosePopup).isDisplayed()) {
 			Assert.assertTrue(driver.findElement(By.xpath("//div[@class='tcb-flex-col']")).isDisplayed());
 			driver.findElement(ClosePopup).click();
 		}
@@ -93,12 +94,13 @@ public class Topic_11_Popup_Iframe_Windows {
 	}
 
 	@Test
-	public void TC_06() {
+	public void TC_06_Iframe() {
+		driver.get("https://kyna.vn/");
 
 	}
 
 	@Test
-	public void TC_07() {
+	public void TC_07_Frame() {
 
 	}
 
