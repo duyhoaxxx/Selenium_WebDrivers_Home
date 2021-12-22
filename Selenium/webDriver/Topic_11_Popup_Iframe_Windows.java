@@ -8,6 +8,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -15,11 +16,13 @@ import org.testng.annotations.Test;
 
 public class Topic_11_Popup_Iframe_Windows {
 	WebDriver driver;
+	WebDriverWait explicitWait;
 	String projectPath = System.getProperty("user.dir");
 
 	@BeforeClass
 	public void beforeClass() {
 		SetBrowser();
+		explicitWait = new WebDriverWait(driver, 30);
 	}
 
 	@Test
@@ -51,7 +54,7 @@ public class Topic_11_Popup_Iframe_Windows {
 		driver.findElement(By.xpath("//section[@id='search-2']//input[@type='search']")).sendKeys("Selenium");
 		driver.findElement(By.xpath("//section[@id='search-2']//span[@class='glass']")).click();
 		sleepInSecond(3);
-		
+
 		var ListResults = driver.findElements(By.xpath("//div[@class='post-on-archive-page']//h3/a"));
 		for (WebElement Result : ListResults) {
 			Assert.assertTrue(Result.getText().contains("Selenium"));
@@ -62,7 +65,7 @@ public class Topic_11_Popup_Iframe_Windows {
 	@Test
 	public void TC_03_Random_Popup() {
 		driver.get("https://vnk.edu.vn/");
-		sleepInSecond(30);
+		sleepInSecond(20);
 		var ClosePopup = By.xpath("//div[@class='thrv_wrapper thrv_icon tcb-icon-display tve_evt_manager_listen tve_et_click tve_ea_thrive_leads_form_close']");
 		if(driver.findElement(ClosePopup).isDisplayed()) {
 			Assert.assertTrue(driver.findElement(By.xpath("//div[@class='tcb-flex-col']")).isDisplayed());
@@ -73,7 +76,15 @@ public class Topic_11_Popup_Iframe_Windows {
 
 	@Test
 	public void TC_04_Random_NotInDOM() {
-
+		driver.get("https://dehieu.vn/");
+		sleepInSecond(10);
+		var ClosePopup = By.xpath("//section[@id='popup']");
+		var IsPopup = driver.findElements(ClosePopup);
+		if (IsPopup.size() > 0) {
+			driver.findElement(By.id("close-popup")).click();
+		}
+		sleepInSecond(2);
+		Assert.assertTrue(driver.findElement(By.xpath("//li/a[text()='Trang chủ']")).isDisplayed());
 	}
 
 	@Test
@@ -133,6 +144,7 @@ public class Topic_11_Popup_Iframe_Windows {
 		}
 
 		driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+		driver.manage().window().maximize();
 	}
 
 	public void sleepInSecond(long second) {
