@@ -106,6 +106,7 @@ public class Topic_11_Popup_Iframe_Windows {
 		Assert.assertTrue(LikeNumbers.contains("167K"));
 		driver.switchTo().defaultContent();
 		driver.switchTo().frame(driver.findElement(By.xpath("//div[@id='cs-live-chat']//iframe")));
+		sleepInSecond(2);
 		driver.findElement(By.xpath("//div[@class='meshim_widget_components_chatButton_ButtonBar button_bar']"))
 				.click();
 		// jsExecuter.executeScript("arguments[0].click();",
@@ -115,14 +116,37 @@ public class Topic_11_Popup_Iframe_Windows {
 		Select SupportService = new Select(driver.findElement(By.xpath("//select[@id='serviceSelect']")));
 		SupportService.selectByValue("60021729");
 		driver.findElement(By.xpath("//textarea[@name='message']")).sendKeys("I need support somethings.");
-		driver.findElement(By.xpath("//input[@value='Gửi tin nhắn']")).submit();
-		sleepInSecond(3);
-
+		driver.findElement(By.xpath("//input[@value='Gửi tin nhắn']")).click();
+		sleepInSecond(2);
+		Assert.assertEquals(driver
+				.findElement(By.xpath("//div[@class='floater']//label[@class='logged_in_name ng-binding']")).getText(),
+				"Kane");
+		// Assert.assertEquals(driver.findElement(By.xpath("//div[@class='floater']//label[@class='logged_in_email
+		// ng-binding']")).getText(), "Kane");
+		Assert.assertEquals(driver
+				.findElement(By.xpath("//div[@class='floater']//label[@class='logged_in_phone ng-binding']")).getText(),
+				"0866868686");
+		Assert.assertEquals(driver.findElement(By.xpath("//textarea[@name='message']")).getText(),
+				"I need support somethings.");
+		driver.switchTo().defaultContent();
+		driver.findElement(By.xpath("//input[@id='live-search-bar']")).sendKeys("Excel");
+		driver.findElement(By.xpath("//button[@class='search-button']")).click();
+		sleepInSecond(2);
+		var ListResults = driver.findElements(By.xpath("//ul[@id='w0']//h4"));
+		for (WebElement webElement : ListResults) {
+			Assert.assertTrue(webElement.getText().contains("Excel"));
+		}
 	}
 
 	@Test
 	public void TC_07_Frame() {
-
+		driver.get("https://netbanking.hdfcbank.com/netbanking/");
+		driver.switchTo().frame(0);
+		driver.findElement(By.xpath("//input[@name='fldLoginUserId']")).sendKeys("Kane");
+		driver.findElement(By.xpath("//div[@class='inputfield ibvt loginData']/a")).click();
+		sleepInSecond(2);
+		Assert.assertTrue(driver.findElement(By.xpath("//input[@name='fldPassword']")).isDisplayed());
+		driver.findElement(By.xpath("//div[@class='footer-btm']//a[text()='Terms and Conditions']")).click();
 	}
 
 	@Test
