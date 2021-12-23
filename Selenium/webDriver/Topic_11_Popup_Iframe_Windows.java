@@ -3,11 +3,13 @@ package webDriver;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -17,12 +19,14 @@ import org.testng.annotations.Test;
 public class Topic_11_Popup_Iframe_Windows {
 	WebDriver driver;
 	WebDriverWait explicitWait;
+	JavascriptExecutor jsExecuter;
 	String projectPath = System.getProperty("user.dir");
 
 	@BeforeClass
 	public void beforeClass() {
 		SetBrowser();
 		explicitWait = new WebDriverWait(driver, 30);
+		jsExecuter = (JavascriptExecutor) driver;
 	}
 
 	@Test
@@ -96,6 +100,23 @@ public class Topic_11_Popup_Iframe_Windows {
 	@Test
 	public void TC_06_Iframe() {
 		driver.get("https://kyna.vn/");
+		driver.switchTo().frame(driver.findElement(By.xpath("//div[@class='face-content']/iframe")));
+		var LikeNumbers = driver.findElement(By.xpath("//div[@class='_1drq']")).getText();
+		System.out.print(LikeNumbers);
+		Assert.assertTrue(LikeNumbers.contains("167K"));
+		driver.switchTo().defaultContent();
+		driver.switchTo().frame(driver.findElement(By.xpath("//div[@id='cs-live-chat']//iframe")));
+		driver.findElement(By.xpath("//div[@class='meshim_widget_components_chatButton_ButtonBar button_bar']"))
+				.click();
+		// jsExecuter.executeScript("arguments[0].click();",
+		// driver.findElement(By.xpath("//div[@class='button_text']")));
+		driver.findElement(By.xpath("//input[@ng-model='login.username']")).sendKeys("Kane");
+		driver.findElement(By.xpath("//input[@ng-model='login.phone']")).sendKeys("0866868686");
+		Select SupportService = new Select(driver.findElement(By.xpath("//select[@id='serviceSelect']")));
+		SupportService.selectByValue("60021729");
+		driver.findElement(By.xpath("//textarea[@name='message']")).sendKeys("I need support somethings.");
+		driver.findElement(By.xpath("//input[@value='Gửi tin nhắn']")).submit();
+		sleepInSecond(3);
 
 	}
 
