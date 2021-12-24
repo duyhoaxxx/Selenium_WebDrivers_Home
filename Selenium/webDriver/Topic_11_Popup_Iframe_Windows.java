@@ -150,8 +150,23 @@ public class Topic_11_Popup_Iframe_Windows {
 	}
 
 	@Test
-	public void TC_08() {
+	public void TC_08_Window_Tab() {
+		driver.get("https://automationfc.github.io/basic-form/index.html");
+		String ParentTab = driver.getWindowHandle();
+		driver.findElement(By.xpath("//a[text()='GOOGLE']")).click();
+		var AllTab = driver.getWindowHandles();
+		for (String tab : AllTab) {
+			if (!tab.equals(ParentTab))
+				driver.switchTo().window(tab);
+		}
+		sleepInSecond(2);
+		String GoogleTab = driver.getWindowHandle();
+		Assert.assertEquals(driver.getTitle(), "Google");
 
+		SwitchToWindowByID(ParentTab);
+		driver.findElement(By.xpath("//a[text()='FACEBOOK']")).click();
+		SwitchToWindowByTitle("Facebook");
+		sleepInSecond(5);
 	}
 
 	@Test
@@ -172,6 +187,23 @@ public class Topic_11_Popup_Iframe_Windows {
 	@AfterClass
 	public void afterClass() {
 		driver.quit();
+	}
+
+	public void SwitchToWindowByID(String id) {
+		var allTabs = driver.getWindowHandles();
+		for (String tab : allTabs) {
+			if (tab.equals(id))
+				driver.switchTo().window(tab);
+		}
+	}
+
+	public void SwitchToWindowByTitle(String title) {
+		var allTabs = driver.getWindowHandles();
+		for (String tab : allTabs) {
+			driver.switchTo().window(tab);
+			if (driver.getTitle().contains(title))
+				break;
+		}
 	}
 
 	public void SetBrowser() {
