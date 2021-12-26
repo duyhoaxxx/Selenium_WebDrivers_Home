@@ -160,28 +160,101 @@ public class Topic_11_Popup_Iframe_Windows {
 				driver.switchTo().window(tab);
 		}
 		sleepInSecond(2);
-		String GoogleTab = driver.getWindowHandle();
+		// String GoogleTab = driver.getWindowHandle();
 		Assert.assertEquals(driver.getTitle(), "Google");
 
 		SwitchToWindowByID(ParentTab);
+		sleepInSecond(2);
 		driver.findElement(By.xpath("//a[text()='FACEBOOK']")).click();
 		SwitchToWindowByTitle("Facebook");
-		sleepInSecond(5);
+		Assert.assertEquals(driver.getTitle(), "Facebook – log in or sign up");
+		SwitchToWindowByID(ParentTab);
+		sleepInSecond(2);
+		driver.findElement(By.xpath("//a[text()='TIKI']")).click();
+		SwitchToWindowByTitle("Tiki");
+		Assert.assertEquals(driver.getTitle(), "Tiki - Mua hàng online giá tốt, hàng chuẩn, ship nhanh");
+
+		CloseAllWindowWithoutParent(ParentTab);
+		Assert.assertEquals(driver.getCurrentUrl(), "https://automationfc.github.io/basic-form/index.html");
+		sleepInSecond(2);
 	}
 
 	@Test
-	public void TC_09() {
-
+	public void TC_09_Window_Tab() {
+		driver.get("https://kyna.vn/");
+		String ParentTab = driver.getWindowHandle();
+		driver.findElement(By.xpath("//div[@class='hotline']//img[@alt='facebook']")).click();
+		SwitchToWindowByTitle("Facebook");
+		Assert.assertTrue(driver.getCurrentUrl().contains("facebook.com"));
+		SwitchToWindowByID(ParentTab);
+		sleepInSecond(2);
+		driver.findElement(By.xpath("//div[@class='hotline']//img[@alt='youtube']")).click();
+		SwitchToWindowByUrl("youtube.com");
+		Assert.assertTrue(driver.getCurrentUrl().contains("https://www.youtube.com/"));
+		CloseAllWindowWithoutParent(ParentTab);
+		Assert.assertEquals(driver.getCurrentUrl(), "https://kyna.vn/");
+		sleepInSecond(2);
 	}
 
 	@Test
-	public void TC_10() {
+	public void TC_10_Window_Tab() {
+		driver.get("http://live.techpanda.org/");
+		String ParentTab = driver.getWindowHandle();
+		driver.findElement(By.xpath("//a[text()='Mobile']")).click();
+		sleepInSecond(2);
+		driver.findElement(By.xpath(
+				"//a[text()='Sony Xperia']/parent::h2//following-sibling::div[@class='actions']//a[text()='Add to Compare']"))
+				.click();
+		Assert.assertEquals(driver.findElement(By.xpath("//li[@class='success-msg']//span")).getText(),
+				"The product Sony Xperia has been added to comparison list.");
+		driver.findElement(By.xpath(
+				"//a[text()='Samsung Galaxy']/parent::h2/following-sibling::div[@class='actions']//a[text()='Add to Compare']"))
+				.click();
+		Assert.assertEquals(driver.findElement(By.xpath("//li[@class='success-msg']//span")).getText(),
+				"The product Samsung Galaxy has been added to comparison list.");
+		driver.findElement(By.xpath("//span[text()='Compare']")).click();
 
+		var AllTab = driver.getWindowHandles();
+		for (String tab : AllTab) {
+			if (!tab.equals(ParentTab))
+				driver.switchTo().window(tab);
+		}
+		sleepInSecond(2);
+		Assert.assertEquals(driver.getTitle(), "Products Comparison List - Magento Commerce");
+		driver.close();
+		driver.switchTo().window(ParentTab);
+		sleepInSecond(2);
+		driver.findElement(By.xpath("//a[text()='Clear All']")).click();
+		sleepInSecond(2);
+		driver.switchTo().alert().accept();
+		sleepInSecond(2);
+		Assert.assertEquals(driver.findElement(By.xpath("//li[@class='success-msg']//span")).getText(),
+				"The comparison list was cleared.");
+		sleepInSecond(2);
 	}
 
 	@Test
-	public void TC_11() {
+	public void TC_11_Window_Tab() {
+		driver.get("https://dictionary.cambridge.org/vi/");
+		String ParentTab = driver.getWindowHandle();
+		driver.findElement(By.xpath("//span[text()='Đăng nhập']")).click();
+		var AllTab = driver.getWindowHandles();
+		for (String tab : AllTab) {
+			if (!tab.equals(ParentTab))
+				driver.switchTo().window(tab);
+		}
+		sleepInSecond(2);
+		driver.findElement(By.xpath("//input[@value='Log in']")).click();
+		sleepInSecond(2);
+		Assert.assertEquals(
+				driver.findElement(By.xpath("//input[@class='gigya-input-text gigya-error']/following-sibling::span"))
+						.getText(),
+				"This field is required");
+		Assert.assertEquals(driver
+				.findElement(By.xpath("//input[@class='gigya-input-password gigya-error']/following-sibling::span"))
+				.getText(), "This field is required");
 
+		sleepInSecond(2);
 	}
 
 	@AfterClass
@@ -189,11 +262,24 @@ public class Topic_11_Popup_Iframe_Windows {
 		driver.quit();
 	}
 
+	public void CloseAllWindowWithoutParent(String parentID) {
+		var allTabs = driver.getWindowHandles();
+		for (String tab : allTabs) {
+			if (!tab.equals(parentID)) {
+				driver.switchTo().window(tab);
+				driver.close();
+			}
+		}
+		driver.switchTo().window(parentID);
+	}
+
 	public void SwitchToWindowByID(String id) {
 		var allTabs = driver.getWindowHandles();
 		for (String tab : allTabs) {
-			if (tab.equals(id))
+			if (tab.equals(id)) {
 				driver.switchTo().window(tab);
+				break;
+			}
 		}
 	}
 
@@ -201,8 +287,21 @@ public class Topic_11_Popup_Iframe_Windows {
 		var allTabs = driver.getWindowHandles();
 		for (String tab : allTabs) {
 			driver.switchTo().window(tab);
-			if (driver.getTitle().contains(title))
+			sleepInSecond(2);
+			if (driver.getTitle().contains(title)) {
 				break;
+			}
+		}
+	}
+
+	public void SwitchToWindowByUrl(String url) {
+		var allTabs = driver.getWindowHandles();
+		for (String tab : allTabs) {
+			driver.switchTo().window(tab);
+			sleepInSecond(2);
+			if (driver.getCurrentUrl().contains(url)) {
+				break;
+			}
 		}
 	}
 
