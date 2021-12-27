@@ -1,5 +1,6 @@
 package webDriver;
 
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
@@ -104,22 +105,46 @@ public class Topic_13_Javascript_Executor {
 		clickToElementByJS("//input[@name='btnLogin']");
 		clickToElementByJS("//a[text()='New Customer']");
 
-		sendkeyToElementByJS("//input[@name='name']", "Kane");
+		getElement("//input[@name='name']").sendKeys("Kane");
 		removeAttributeInDOM("//input[@name='dob']", "type");
-		sendkeyToElementByJS("//input[@name='dob']", "04/26/1990");
-		sendkeyToElementByJS("//textarea[@name='addr']", "Viet Nammmm");
-		//getElement("//textarea[@name='addr']").sendKeys("Viet Nammmm");
-		sendkeyToElementByJS("//input[@name='city']", "Ha Noi");
-		sendkeyToElementByJS("//input[@name='state']", "Cau Giay");
-		sendkeyToElementByJS("//input[@name='pinno']", "100000");
-		sendkeyToElementByJS("//input[@name='telephoneno']", "0868686886");
-		sendkeyToElementByJS("//input[@name='emailid']", "kane1123@gmail.com");
-		sendkeyToElementByJS("//input[@name='password']", "123456");
+		getElement("//input[@name='dob']").sendKeys("04/26/1990");
+		getElement("//textarea[@name='addr']").sendKeys("Viet Nammmm");
+		getElement("//input[@name='city']").sendKeys("Ha Noi");
+		getElement("//input[@name='state']").sendKeys("Cau Giay");
+		getElement("//input[@name='pinno']").sendKeys("100000");
+		getElement("//input[@name='telephoneno']").sendKeys("0868686886");
+		getElement("//input[@name='password']").sendKeys("123456");
 
-		clickToElementByJS("//input[@name='sub']");
-		sleepInSecond(120);
-		Assert.assertTrue(areExpectedTextInInnerText("Customer Registered Successfully!!!"));
+		// Random Email
+		Random rand = new Random();
+		String Email = "AutoTest" + String.valueOf((rand.nextInt(9999))) + "@gmail.com";
 
+		getElement("//input[@name='emailid']").sendKeys(Email);
+
+		getElement("//input[@name='sub']").click();
+		Assert.assertTrue(getElement("//p[@class='heading3']").isDisplayed());
+		Assert.assertEquals(getElement("//p[@class='heading3']").getText(), ("Customer Registered Successfully!!!"));
+		sleepInSecond(2);
+	}
+
+	@Test
+	public void TC_05_Create_Account() {
+		navigateToUrlByJS("http://live.techpanda.org/");
+		clickToElementByJS("//div[@id='header-account']//a[text()='My Account']");
+		clickToElementByJS("//span[text()='Create an Account']");
+		sendkeyToElementByJS("//input[@id='firstname']", "Pham");
+		sendkeyToElementByJS("//input[@id='lastname']", "Kane");
+		// Random Email
+		Random rand = new Random();
+		String Email = "AutoTest" + String.valueOf((rand.nextInt(9999))) + "@gmail.com";
+		sendkeyToElementByJS("//input[@id='email_address']", Email);
+		sendkeyToElementByJS("//input[@id='password']", "123456");
+		sendkeyToElementByJS("//input[@id='confirmation']", "123456");
+		clickToElementByJS("//span[text()='Register']");
+		Assert.assertTrue(getElement("//li[@class='success-msg']").isDisplayed());
+		clickToElementByJS("//a[text()='Log Out']");
+		Assert.assertTrue(getElement("//img[@title='Additional Options']").isDisplayed());
+		Assert.assertEquals((String) executeForBrowser("return document.title;"), "Home page");
 		sleepInSecond(2);
 	}
 
