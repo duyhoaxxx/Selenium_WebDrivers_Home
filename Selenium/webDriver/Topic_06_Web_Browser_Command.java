@@ -215,7 +215,6 @@ public class Topic_06_Web_Browser_Command {
 
 	@Test
 	public void TC_04_Element_Register_Function() {
-		//driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		driver.get("https://login.mailchimp.com/signup/");
 
 		driver.findElement(By.xpath("//input[@id='email']")).sendKeys("Autotest@gmail.com");
