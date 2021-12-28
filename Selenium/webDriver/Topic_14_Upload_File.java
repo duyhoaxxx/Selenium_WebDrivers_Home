@@ -4,6 +4,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -24,12 +25,26 @@ public class Topic_14_Upload_File {
 	@Test
 	public void TC_01_Upload_File_By_Senkeys() {
 		driver.get("https://blueimp.github.io/jQuery-File-Upload/");
-		driver.findElement(By.xpath("//input[@type='file']"))
-				.sendKeys("C:\\Users\\IS KOREA RENTAL\\Downloads\\20222.png");
-		driver.findElement(By.xpath("//input[@type='file']"))
-				.sendKeys("C:\\Users\\IS KOREA RENTAL\\Downloads\\20221.jpg");
+		driver.findElement(By.xpath("//input[@type='file']")).sendKeys(projectPath + "\\Media\\20221.png" + "\n"
+				+ projectPath + "\\Media\\20222.png" + "\n" + projectPath + "\\Media\\20223.png");
+		// driver.findElement(By.xpath("//input[@type='file']")).sendKeys(projectPath +
+		// "\\Media\\20222.png");
+		// driver.findElement(By.xpath("//input[@type='file']")).sendKeys(projectPath +
+		// "\\Media\\20223.png");
 		sleepInSecond(2);
-		Assert.assertEquals(driver.findElements(By.xpath("//tr[@class='template-upload fade image in']")).size(), 2);
+		Assert.assertEquals(driver.findElements(By.xpath("//tr[@class='template-upload fade image in']")).size(), 3);
+
+		var upload = driver
+				.findElements(By.xpath("//tr[@class='template-upload fade image in']//span[text()='Start']"));
+		for (WebElement webElement : upload) {
+			webElement.click();
+		}
+
+		// Assert.assertTrue(driver.findElement(By.xpath("//tr[@class='template-download
+		// fade image in']//span[text()='Delete']")).isDisplayed());
+		sleepInSecond(5);
+		Assert.assertEquals(driver.findElements(By.xpath("//tr[@class='template-download fade image in']")).size(), 3);
+
 		sleepInSecond(2);
 	}
 
