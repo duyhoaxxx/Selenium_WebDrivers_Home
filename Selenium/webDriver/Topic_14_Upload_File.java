@@ -2,10 +2,12 @@ package webDriver;
 
 import java.util.concurrent.TimeUnit;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -20,14 +22,14 @@ public class Topic_14_Upload_File {
 	}
 
 	@Test
-	public void TC_01() {
+	public void TC_01_Upload_File_By_Senkeys() {
 		driver.get("https://blueimp.github.io/jQuery-File-Upload/");
-
-		
-		
-		
-		
-		
+		driver.findElement(By.xpath("//input[@type='file']"))
+				.sendKeys("C:\\Users\\IS KOREA RENTAL\\Downloads\\20222.png");
+		driver.findElement(By.xpath("//input[@type='file']"))
+				.sendKeys("C:\\Users\\IS KOREA RENTAL\\Downloads\\20221.jpg");
+		sleepInSecond(2);
+		Assert.assertEquals(driver.findElements(By.xpath("//tr[@class='template-upload fade image in']")).size(), 2);
 		sleepInSecond(2);
 	}
 
