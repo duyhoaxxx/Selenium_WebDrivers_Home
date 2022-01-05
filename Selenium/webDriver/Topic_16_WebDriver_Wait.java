@@ -1,5 +1,7 @@
 package webDriver;
 
+import static org.testng.Assert.assertTrue;
+
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
@@ -49,11 +51,20 @@ public class Topic_16_WebDriver_Wait {
 		explicitWait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//form[@id='reg']")));
 		explicitWait.until(ExpectedConditions.stalenessOf(stalenessTest));
 	
+		var result = driver.findElement(By.xpath("//div[@id='pageFooter']/ul[1]/li[1]"));
+		var results = driver.findElements(By.xpath("//div[@id='pageFooter']/ul[1]//li"));
+		Assert.assertEquals(result.getText(), "English (UK)");
+		assertTrue(results.size()>2);
 	}
 
 	@Test
-	public void TC_02() {
-
+	public void TC_02_implicitlyWait() {
+		driver.get("https://automationfc.github.io/dynamic-loading/");
+		
+		driver.findElement(By.xpath("//button[text()='Start']")).click();
+		
+		driver.manage().timeouts().implicitlyWait(6, TimeUnit.SECONDS);
+		Assert.assertTrue(driver.findElement(By.xpath("//h4")).isDisplayed());
 	}
 
 	@Test
@@ -82,7 +93,7 @@ public class Topic_16_WebDriver_Wait {
 			driver = new EdgeDriver();
 		}
 
-		driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+		//driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 	}
 
 	public void sleepInSecond(long second) {
