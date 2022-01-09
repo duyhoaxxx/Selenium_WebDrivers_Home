@@ -2,15 +2,21 @@ package webDriver;
 
 import static org.testng.Assert.assertTrue;
 
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -20,6 +26,9 @@ import org.testng.annotations.Test;
 public class Topic_16_WebDriver_Wait {
 	WebDriver driver;
 	WebDriverWait explicitWait;
+	FluentWait<WebElement> fluentElement;
+	JavascriptExecutor jsExecutor;
+
 	String projectPath = System.getProperty("user.dir");
 
 	@BeforeClass
@@ -142,17 +151,88 @@ public class Topic_16_WebDriver_Wait {
 	@Test
 	public void TC_07_FluentWait() {
 		driver.get("https://automationfc.github.io/fluent-wait/");
-		explicitWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='javascript_countdown_time']")));
+		var countDownTimer = driver.findElement(By.xpath("//div[@id='javascript_countdown_time']"));
+		fluentElement = new FluentWait<WebElement>(countDownTimer);
+
+		// fluentElement.withTimeout(15, TimeUnit.SECONDS);
+		fluentElement.withTimeout(Duration.ofSeconds(15)).pollingEvery(Duration.ofMillis(100))
+				.ignoring(NoSuchElementException.class).until(new Function<WebElement, Boolean>() {
+
+					@Override
+					public Boolean apply(WebElement t) {
+						boolean status = t.getText().endsWith("00");
+						System.out.println("Text = " + t.getText() + "--------! " + status);
+						return status;
+					}
+				});
 	}
 
 	@Test
 	public void TC_08_FluentWait() {
+		driver.get("https://automationfc.github.io/dynamic-loading/");
+		// driver.findElement(By.xpath("//button[text()=\'Start\']")).click();
+
+		ClickToElement(By.xpath("//button[text()='Start']"));
+		Assert.assertTrue(IsElementDisplay(By.xpath("//h4")));
 
 	}
 
 	@Test
 	public void TC_09_PageReady() {
+		driver.get("https://opensource-demo.orangehrmlive.com");
+		driver.findElement(By.xpath("//input[@id='txtUsername']")).sendKeys("Admin");
+		driver.findElement(By.xpath("//input[@id='txtPassword']")).sendKeys("admin123");
+		driver.findElement(By.xpath("//input[@id='btnLogin']")).click();
 
+		Assert.assertTrue(IsJQueryLoadedSuccess(driver));
+		Assert.assertEquals(driver.findElement(By.xpath("//div[@id='total']//span")).getText(), "3 month(s)");
+		driver.findElement(By.xpath("//b[text()='PIM']")).click();
+		driver.findElement(By.xpath("//a[text()='Employee List']")).click();
+		Assert.assertTrue(IsJQueryLoadedSuccess(driver));
+		driver.findElement(By.xpath("//input[@id='empsearch_employee_name_empName']")).sendKeys("Harry Kane");
+		driver.findElement(By.xpath("//input[@id='searchBtn']")).click();
+		Assert.assertTrue(IsJQueryLoadedSuccess(driver));
+		Assert.assertEquals(driver.findElements(By.xpath("//table[@id='resultTable']//tbody//tr")).size(),1);
+	}
+
+	public void ClickToElement(By locator) {
+		FluentWait<WebDriver> fluentDriver = new FluentWait<WebDriver>(driver).withTimeout(Duration.ofSeconds(15))
+				.pollingEvery(Duration.ofMillis(100)).ignoring(NoSuchElementException.class);
+
+		WebElement element = fluentDriver.until(new Function<WebDriver, WebElement>() {
+			public WebElement apply(WebDriver driver) {
+				return driver.findElement(locator);
+			}
+		});
+		element.click();
+	}
+
+	public boolean IsElementDisplay(By locator) {
+		FluentWait<WebDriver> fluentDriver = new FluentWait<WebDriver>(driver).withTimeout(Duration.ofSeconds(15))
+				.pollingEvery(Duration.ofMillis(100)).ignoring(NoSuchElementException.class);
+
+		Boolean status = fluentDriver.until(new Function<WebDriver, Boolean>() {
+
+			@Override
+			public Boolean apply(WebDriver t) {
+				return t.findElement(locator).isDisplayed();
+			}
+		});
+		return status;
+	}
+
+	public boolean IsJQueryLoadedSuccess(WebDriver driver) {
+		explicitWait = new WebDriverWait(driver, 10);
+		jsExecutor = (JavascriptExecutor) driver;
+		ExpectedCondition<Boolean> jQueryLoad = new ExpectedCondition<Boolean>() {
+
+			@Override
+			public Boolean apply(WebDriver driver) {
+				// TODO Auto-generated method stub
+				return (Boolean) jsExecutor.executeScript("return (window.jQuery != null) && (jQuery.active === 0);");
+			}
+		};
+		return explicitWait.until(jQueryLoad);
 	}
 
 	@AfterClass
