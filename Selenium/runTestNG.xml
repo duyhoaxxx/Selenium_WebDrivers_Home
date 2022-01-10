@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite parallel="false" name="Suite">
+	<test name="Test">
+
+		<groups>
+			<run>
+				<include name="user" />
+			</run>
+		</groups>
+
+		<packages>
+			<package name="TestNG" />
+		</packages>
+
+		<!-- <classes> <class name="TestNG.Topic_01_Annotations" /> </classes> -->
+	</test> <!-- Test -->
+</suite> <!-- Suite -->
